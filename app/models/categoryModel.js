@@ -16,6 +16,22 @@ async function getMainCategories() {
   }
 }
 
+async function searchMainCategories(name) {
+  const sql = `
+    SELECT * 
+    FROM tbl_main_category 
+    WHERE flag = 0 AND name LIKE ?
+    ORDER BY id DESC
+  `;
+  try {
+    const [rows] = await pool.promise().execute(sql, [`%${name}%`]);
+    return rows;
+  } catch (err) {
+    console.error("Error in searchMainCategories:", err);
+    throw err;
+  }
+}
+
 async function insertMainCategory(data) {
   try {
     const sql = `
@@ -134,4 +150,5 @@ module.exports = {
   unpublishMainCategory,
   deleteMainCategory,
   getCategoryByName,
+  searchMainCategories,
 };
