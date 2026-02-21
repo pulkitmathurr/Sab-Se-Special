@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" data-theme="light">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Sab Se Special Admin Dashboard</title>
+	<meta name="description" content="Sab Se Special — This is the best dashboard" />
+	<meta name="msapplication-tap-highlight" content="no" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="application-name" content="Sab Se Special — This is the best dashboard" />
+	<meta name="apple-mobile-web-app-title" content="Sab Se Special Admin Dashboard" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="stylesheet" href="/css/vendor.min.css" />
+	<link rel="stylesheet" href="/css/common.css" />
+	<link rel="apple-touch-icon" sizes="57x57" href="img/content/favicons/apple-icon-57x57.png" />
+	<link rel="apple-touch-icon" sizes="60x60" href="img/content/favicons/apple-icon-60x60.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="img/content/favicons/apple-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="img/content/favicons/apple-icon-76x76.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="img/content/favicons/apple-icon-114x114.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="img/content/favicons/apple-icon-120x120.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="img/content/favicons/apple-icon-144x144.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="img/content/favicons/apple-icon-152x152.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="img/content/favicons/apple-icon-180x180.png" />
+	<link rel="icon" type="image/png" sizes="192x192" href="img/content/favicons/android-icon-192x192.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="img/content/favicons/favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="96x96" href="img/content/favicons/favicon-96x96.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="img/content/favicons/favicon-16x16.png" />
+	<meta name="msapplication-TileColor" content="#ffffff" />
+	<meta name="msapplication-TileImage" content="../../ms-icon-144x144.html" />
+	<meta name="theme-color" content="#ffffff" />
+</head>
+
+<body>
+	<div class="page-wrapper">
+		<main class="page-auth">
+			<div class="page-auth__center">
+				<div class="page-auth__screen">
+					<div class="auth-logo">
+						<img class="auth-logo__icon" src="/img/content/sss_logo.png" width="44" alt="#" />
+						<div class="auth-logo__text">arion</div>
+					</div>
+					<img class="page-auth__screen-bg auth-bg-image-light" src="/img/content/auth-bg.jpg" alt="#">
+					<img class="page-auth__screen-bg auth-bg-image-dark" src="/img/content/auth-bg-dark.jpg" alt="#">
+				</div>
+				<div class="auth-card card">
+					<div class="card__wrapper">
+						<div class="auth-card__left">
+							<div class="auth-card__logo">
+								<div class="auth-logo">
+									<img class="auth-logo__icon" src="img/content/sss_logo.png" width="44" alt="#" />
+									<div class="auth-logo__text" >Sab Se Special</div>
+								</div>
+							</div>
+							<img class="auth-card__bg auth-bg-image-light" src="img/content/auth-bg-dark.jpg" alt="#">
+							<img class="auth-card__bg auth-bg-image-dark" src="img/content/auth-bg-dark.jpg" alt="#">
+						</div>
+						<form action="/login" class="auth-card__right" method="POST">
+							<div class="auth-card__top">
+								<h1 class="auth-card__title">Welcome to <span class="text-theme" style="color: rgb(255, 255, 0);">SAB SE SPECIAL</span>
+								</h1>
+								<p class="auth-card__text">Welcome Back, Please login
+									<br>to your account.
+								</p>
+							</div>
+							<div class="auth-card__body">
+								<div class="form-group">
+									<div class="input-group input-group--prepend"><span class="input-group__prepend">
+											<svg class="icon-icon-user">
+												<use xlink:href="#icon-user"></use>
+											</svg></span>
+										<input class="input" name="email" type="email" placeholder="example@mail.com" >
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="input-group input-group--prepend"><span class="input-group__prepend">
+											<svg class="icon-icon-password">
+												<use xlink:href="#icon-password"></use>
+											</svg></span>
+										<input class="input" name="password" type="password" placeholder="******">
+									</div>
+								</div>
+								<% if (error_msg) { %>
+									<div class="alert alert-danger" role="alert">
+										<%= error_msg %>
+									</div>
+									<% } %>
+										<div class="row align-items-center">
+											<div class="col">
+												<div class="form-group">
+													<div class="input-group input-group--prepend">
+														<label class="checkbox">
+															<!-- <input type="checkbox" checked><span class="checkbox__marker"> -->
+															<span class="checkbox__marker-icon"><svg
+																	viewBox="0 0 14 12">
+																	<path
+																		d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
+																</svg></span></span>
+															<!-- <span class="d-inline-block ml-2">Remember Me</span> -->
+														</label>
+													</div>
+												</div>
+											</div>
+											<div class="col-auto">
+												<div class="form-group">
+													<!-- <a class="text-blue" href="auth-forgot.html">Forgot Password?</a> -->
+												</div>
+											</div>
+										</div>
+							</div>
+							<div class="auth-card__bottom">
+								<div class="auth-card__buttons">
+									<div class="auth-card__button">
+										<!-- <a class="button button--secondary button--block" href="auth-create.html"><span class="button__text">Sign Up</span></a> -->
+									</div>
+									<div class="auth-card__button">
+										<button class="button button--primary button--block" type="submit" style="background-color: yellow; border-color:yellow ;"><span
+												class="button__text">Login</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script src="/js/photoswipe/photoswipe-lightbox.esm.min.js" type="module"></script>
+	<script src="/js/photoswipe/photoswipe.esm.min.js" type="module"></script>
+	<script src="/js/gsap/gsap.min.js"></script>
+	<script src="/js/gsap/ScrollToPlugin.min.js"></script>
+	<script src="/js/gsap/ScrollTrigger.min.js"></script>
+	<script src="/js/vendor.min.js"></script>
+	<script src="/js/common.js"></script>
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  
+  <!-- User Icon -->
+  <symbol id="icon-user" viewBox="0 0 24 24">
+    <circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M5.5 21C5.5 17.5 8.5 15 12 15C15.5 15 18.5 17.5 18.5 21"
+          fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+
+  <!-- Password Icon -->
+  <symbol id="icon-password" viewBox="0 0 24 24">
+    <rect x="4" y="10" width="16" height="10" rx="2"
+          fill="none" stroke="currentColor" stroke-width="2"/>
+    <path d="M8 10V7a4 4 0 1 1 8 0v3"
+          fill="none" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+
+</svg>
+
+</body>
+
+</html>
