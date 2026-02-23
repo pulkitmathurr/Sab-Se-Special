@@ -1,2 +1,278 @@
-<%- include('../../layout/header.ejs') %>  
-<%- include('../../layout/footer.ejs') %>
+<%- include('../../layout/header.ejs') %>
+
+    <main class="page-content">
+        <div class="container">
+
+            <div class="page-header">
+                <h1 class="page-header__title">Product Gallery</h1>
+            </div>
+
+            <div class="page-tools">
+                <div class="page-tools__breadcrumbs">
+                    <div class="breadcrumbs">
+                        <div class="breadcrumbs__container">
+                            <ol class="breadcrumbs__list">
+                                <li class="breadcrumbs__item">
+                                    <a class="breadcrumbs__link" href="/">
+                                        <svg class="icon-icon-home breadcrumbs__icon">
+                                            <use xlink:href="#icon-home"></use>
+                                        </svg>
+                                        <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
+                                            <use xlink:href="#icon-keyboard-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumbs__item disabled">
+                                    <a class="breadcrumbs__link" href="#">
+                                        <span>Products</span>
+                                        <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
+                                            <use xlink:href="#icon-keyboard-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumbs__item active">
+                                    <span class="breadcrumbs__link">Gallery</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <% if (locals.success_msg && success_msg.length> 0) { %>
+                <div style="background:#28a745;color:white;padding:12px 18px;border-radius:6px;margin-bottom:16px;">
+                    ✅ <%= success_msg %>
+                </div>
+                <% } %>
+                    <% if (locals.error_msg && error_msg.length> 0) { %>
+                        <div
+                            style="background:#dc3545;color:white;padding:12px 18px;border-radius:6px;margin-bottom:16px;">
+                            ❌ <%= error_msg %>
+                        </div>
+                        <% } %>
+
+                            <div class="toolbox">
+                                <div class="toolbox__row row gutter-bottom-xs">
+                                    <div class="toolbox__left col-12 col-lg">
+                                    </div>
+                                    <div class="toolbox__right col-12 col-lg-auto">
+                                        <div class="toolbox__right-row row row--xs flex-nowrap">
+                                            <div class="col col-lg-auto">
+                                                <form class="toolbox__search" method="GET"
+                                                    action="/panel/product-gallery">
+                                                    <div class="input-group input-group--white input-group--prepend">
+                                                        <div class="input-group__prepend">
+                                                            <svg class="icon-icon-search">
+                                                                <use xlink:href="#icon-search"></use>
+                                                            </svg>
+                                                        </div>
+                                                        <input class="input" type="text" name="search"
+                                                            placeholder="Search gallery"
+                                                            value="<%= locals.search || '' %>">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button class="button-add button-add--blue" data-modal="#addGallery"
+                                                    style="background-color:#EFBF04; border-color:#EFBF04;">
+                                                    <span class="button-add__icon">
+                                                        <svg class="icon-icon-plus">
+                                                            <use xlink:href="#icon-plus"></use>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="button-add__text"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Add Modal -->
+                            <div class="modal modal--panel modal--right" id="addGallery">
+                                <div class="modal__overlay" data-dismiss="modal"></div>
+                                <div class="modal__wrap">
+                                    <div class="modal__window scrollbar-thin" data-simplebar>
+                                        <div class="modal__content">
+                                            <div class="modal__header">
+                                                <div class="modal__container">
+                                                    <h2 class="modal__title">Add Gallery Post</h2>
+                                                </div>
+                                            </div>
+                                            <div class="modal__body">
+                                                <div class="modal__container">
+                                                    <form action="/panel/product-gallery/add" method="POST"
+                                                        enctype="multipart/form-data">
+                                                        <div class="row row--md">
+                                                            <div class="col-12 form-group form-group--lg">
+                                                                <label class="form-label">Name</label>
+                                                                <div class="input-group">
+                                                                    <input class="input" name="name" type="text"
+                                                                        placeholder="Enter name" required />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 form-group form-group--lg">
+                                                                <label class="form-label">Image</label>
+                                                                <input class="input" type="file" name="image"
+                                                                    accept="image/*" required />
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal__footer">
+                                                <div class="modal__container">
+                                                    <div class="modal__footer-buttons">
+                                                        <div class="form-group">
+                                                            <button type="submit"
+                                                                class="button button--primary button--block"
+                                                                style="background-color:#EFBF04; border-color:#EFBF04;">
+                                                                Add Post
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal__footer-button">
+                                                            <button class="button button--secondary button--block"
+                                                                data-dismiss="modal" type="button">
+                                                                <span class="button__text">Cancel</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Gallery Grid -->
+                            <div class="table-wrapper">
+                                <div class="gallery-grid">
+                                    <% if (locals.gallery && gallery.length> 0) { %>
+                                        <% gallery.forEach(function(item) { %>
+                                            <div class="gallery-card">
+
+                                                <div class="gallery-card__image-wrap">
+                                                    <img src="/uploads/gallery/<%= item.image %>" alt="<%= item.name %>"
+                                                        class="gallery-card__image" />
+                                                    <% if (item.status !=1) { %>
+                                                        <span class="gallery-card__status-badge">Unpublished</span>
+                                                        <% } %>
+                                                </div>
+
+                                                <p class="gallery-card__name">
+                                                    <%= item.name %>
+                                                </p>
+
+                                                <div class="gallery-card__actions">
+                                                    <a class="gallery-card__action-btn gallery-card__action-btn--edit"
+                                                        href="#"
+                                                        onclick="openEdit('<%= item.id %>', '<%= item.name.replace(/'/g, String.fromCharCode(39)) %>', '<%= item.image %>')">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </a>
+                                                    <form action="/panel/product-gallery/toggle-status" method="POST"
+                                                        style="display:inline;">
+                                                        <input type="hidden" name="id" value="<%= item.id %>" />
+                                                        <input type="hidden" name="status"
+                                                            value="<%= item.status == 1 ? 0 : 1 %>" />
+                                                        <button type="submit"
+                                                            class="gallery-card__action-btn gallery-card__action-btn--toggle">
+                                                            <i class="fa-solid fa-ban"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form action="/panel/product-gallery/delete" method="POST"
+                                                        style="display:inline;"
+                                                        onsubmit="return confirm('Delete this post?')">
+                                                        <input type="hidden" name="id" value="<%= item.id %>" />
+                                                        <button type="submit"
+                                                            class="gallery-card__action-btn gallery-card__action-btn--danger">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <div class="gallery-grid__empty">
+                                                        No gallery posts yet. Click the + button to add one.
+                                                    </div>
+                                                    <% } %>
+                                </div>
+
+                            </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="modal modal--panel modal--right" id="editGallery">
+        <div class="modal__overlay" data-dismiss="modal"></div>
+        <div class="modal__wrap">
+            <div class="modal__window scrollbar-thin" data-simplebar>
+                <div class="modal__content">
+                    <div class="modal__header">
+                        <div class="modal__container">
+                            <h2 class="modal__title">Edit Gallery Post</h2>
+                        </div>
+                    </div>
+                    <div class="modal__body">
+                        <div class="modal__container">
+                            <form action="/panel/product-gallery/edit" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="id" id="editId" />
+                                <div class="row row--md">
+                                    <div class="col-12 form-group form-group--lg">
+                                        <label class="form-label">Name</label>
+                                        <div class="input-group">
+                                            <input class="input" name="name" id="editName" type="text"
+                                                placeholder="Enter name" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-12 form-group form-group--lg">
+                                        <label class="form-label">Current Image</label>
+                                        <div style="margin-bottom:10px;">
+                                            <img id="editImagePreview" src="" alt="current"
+                                                style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid #ddd;" />
+                                        </div>
+                                        <label class="form-label">Change Image <span
+                                                style="color:#888;font-weight:normal;">(leave blank to keep
+                                                current)</span></label>
+                                        <input class="input" type="file" name="image" accept="image/*" />
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="modal__footer">
+                        <div class="modal__container">
+                            <div class="modal__footer-buttons">
+                                <div class="form-group">
+                                    <button type="submit" class="button button--primary button--block"
+                                        style="background-color:#EFBF04; border-color:#EFBF04;">
+                                        Save Changes
+                                    </button>
+                                </div>
+                                <div class="modal__footer-button">
+                                    <button class="button button--secondary button--block" data-dismiss="modal"
+                                        type="button">
+                                        <span class="button__text">Cancel</span>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openEdit(id, name, image) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editName').value = name;
+            document.getElementById('editImagePreview').src = '/uploads/gallery/' + image;
+
+            var modal = document.getElementById('editGallery');
+            modal.classList.add('is-active');
+            modal.classList.add('is-animate');
+        }
+    </script>
+
+    <%- include('../../layout/footer.ejs') %>

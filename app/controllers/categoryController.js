@@ -8,7 +8,7 @@ const categoryController = {
 
   mainCategories: async (req, res) => {
     try {
-      const search = req.query.search || ""; // ← search query lo URL se
+      const search = req.query.search || "";
 
       let categories;
       if (search.trim()) {
@@ -27,7 +27,7 @@ const categoryController = {
       res.render("panel/categories/main-categories", {
         categories,
         editCategory,
-        search, // ← yeh bhi pass karo view ko
+        search, 
       });
     } catch (err) {
       console.error(err);
@@ -135,7 +135,6 @@ const categoryController = {
     }
   },
 
-  //sub categories
   subCategories: async (req, res) => {
     try {
       const categories = await categoryModel.getMainCategories();

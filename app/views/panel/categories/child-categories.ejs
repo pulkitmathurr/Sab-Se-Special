@@ -116,8 +116,8 @@
                                 </form>
                             </div>
                             <div class="col-auto">
-                                <button class="button-add button-add--blue" data-modal="#addProduct" style="background-color: yellow;"><span
-                                        class="button-add__icon">
+                                <button class="button-add button-add--blue" data-modal="#addProduct"
+                                    style="background-color: #EFBF04;"><span class="button-add__icon">
                                         <svg class="icon-icon-plus">
                                             <use xlink:href="#icon-plus"></use>
                                         </svg></span><span class="button-add__text"></span>
@@ -206,7 +206,8 @@
                                 <div class="modal__container">
                                     <div class="modal__footer-buttons">
                                         <div class="form-group">
-                                            <button type="submit" class="button button--primary button--block" style="background-color: yellow;">
+                                            <button type="submit" class="button button--primary button--block"
+                                                style="background-color: #EFBF04;">
                                                 Create Category
                                             </button>
                                         </div>
@@ -329,12 +330,13 @@
                                                             <!-- Edit -->
                                                             <li class="dropdown-items__item">
                                                                 <a class="dropdown-items__link" href="#"
-                                                                    data-modal="#editProduct" onclick="fillEditForm(
-                                                                        '<%= child.child_category_token %>'
-                                                                        ,'<%= child.category_token %>'
-                                                                        ,'<%= child.sub_category_token %>',
-                                                                        '<%= child.name %>',
-                                                                        '<%= child.description || '' %>')"
+                                                                    data-modal="#editProduct"
+                                                                    data-child-token="<%= child.child_category_token %>"
+                                                                    data-cat-token="<%= child.category_token %>"
+                                                                    data-sub-token="<%= child.sub_category_token %>"
+                                                                    data-name="<%= child.name %>"
+                                                                    data-description="<%= child.description || '' %>"
+                                                                    onclick="fillEditForm(this)"
                                                                     style="padding: 0; width: 100%; text-align: left;">
                                                                     <span class="dropdown-items__link-icon">
                                                                         <svg class="icon-icon-task">
@@ -519,7 +521,8 @@
                                 <div class="modal__footer-buttons">
                                     <div class="form-group">
                                         <button type="submit" form="editCategoryForm"
-                                            class="button button--primary button--block" style="background-color: yellow;">
+                                            class="button button--primary button--block"
+                                            style="background-color: #EFBF04;">
                                             Update Category
                                         </button>
                                     </div>
@@ -535,11 +538,9 @@
                 </div>
             </div>
         </div>
-
     </main>
 
     <script>
-        // Add modal filter
         document.getElementById('addMainCatSelect').addEventListener('change', function () {
             const selectedToken = this.value;
             const subSelect = document.getElementById('addSubCatSelect');
@@ -557,13 +558,12 @@
             }
         });
 
-        // Edit form fill
-        function fillEditForm(child_token, cat_token, sub_token, name, description) {
-            document.getElementById('edit_child_token').value = child_token;
-            document.getElementById('edit_cat_token').value = cat_token;
-            document.getElementById('edit_sub_token').value = sub_token;
-            document.getElementById('edit_name').value = name;
-            document.getElementById('edit_description').value = description || '';
+        function fillEditForm(el) {
+            document.getElementById('edit_child_token').value = el.dataset.childToken;
+            document.getElementById('edit_cat_token').value = el.dataset.catToken;
+            document.getElementById('edit_sub_token').value = el.dataset.subToken;
+            document.getElementById('edit_name').value = el.dataset.name;
+            document.getElementById('edit_description').value = el.dataset.description || '';
         }
     </script>
 

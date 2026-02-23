@@ -850,40 +850,34 @@
               </div>
               <div class="header__profile dropdown">
                 <a class="header__profile-toggle dropdown__toggle" href="#" data-toggle="dropdown">
+
+                  <!-- AFTER -->
                   <div class="header__profile-image">
-                    <span class="header__profile-image-text">MA</span>
-                    <img src="/img/content/humans/item-4.jpg" alt="#" />
+                    <span class="header__profile-image-text">
+                      <%= admin.fname ? admin.fname.charAt(0).toUpperCase() : 'A' %>
+                    </span>
+                    <img
+                      src="<%= admin.profile_image ? '/uploads/profile/' + admin.profile_image : '/img/content/humans/item-4.jpg' %>"
+                      alt="#" />
                   </div>
                   <div class="header__profile-text">
-                    <span>Mark Anderson</span>
+                    <span>
+                      <%= admin.fname || '' %>
+                        <%= admin.lname || '' %>
+                    </span>
                   </div>
+
                   <span class="icon-arrow-down">
                     <i class="fa-solid fa-sort-down"></i></span>
                 </a>
 
                 <div class="profile-dropdown dropdown-menu dropdown-menu--right">
 
-                  <a class="profile-dropdown__item dropdown-menu__item" href="#" tabindex="0">
+                  <a class="profile-dropdown__item dropdown-menu__item" href="/profile" tabindex="0">
                     <span class="profile-dropdown__icon">
                       <i class="fa-solid fa-user"></i>
                     </span>
                     <span>My Profile</span>
-                  </a>
-
-                  <!-- <a class="profile-dropdown__item dropdown-menu__item" href="#" tabindex="0">
-                    <span class="profile-dropdown__icon">
-                      <i class="fa-regular fa-message"></i>
-                    </span>
-                    <span>My chat</span>
-                  </a> -->
-
-                  <a class="profile-dropdown__item dropdown-menu__item" href="#" tabindex="0">
-                    <span class="profile-dropdown__icon">
-                      <svg class="icon-icon-task">
-                        <use xlink:href="#icon-task"></use>
-                      </svg>
-                    </span>
-                    <span>Tasks</span>
                   </a>
 
                   <a class="profile-dropdown__item dropdown-menu__item" href="#" tabindex="0">
@@ -953,7 +947,7 @@
                   <div class="container container--sm">
                     <a class="sidebar__logo" href="/">
                       <img class="sidebar__logo-icon" src="/img/content/sss_logo.png" alt="#" width="44" />
-                      <div class="sidebar__logo-text" style="font-size: small; color: rgb(0, 0, 0);">Sab Se Special</div>
+                      <div class="sidebar__logo-text" style="font-size: small; color: #EFBF04;">Sab Se Special</div>
                     </a>
                   </div>
                 </div>

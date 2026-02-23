@@ -72,7 +72,6 @@ async function deleteSubCategory(subCategoryToken) {
   }
 }
 
-
 async function unpublishSubCategory(subCategoryToken) {
     const sql = `
         UPDATE tbl_sub_category 

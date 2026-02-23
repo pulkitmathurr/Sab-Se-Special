@@ -7,6 +7,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
 const multer = require("multer");
+const { userData } = require("./app/middleware/middleware");
+
 
 const PORT = 2200;
 
@@ -81,6 +83,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(userData);
 // Main routes
 app.use("/", router);
 // Category routes

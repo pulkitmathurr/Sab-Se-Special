@@ -1,0 +1,165 @@
+<%- include('../layout/header.ejs') %>
+
+    <main class="page-content">
+        <div class="container">
+
+            <div class="page-header">
+                <h1 class="page-header__title">My Profile</h1>
+            </div>
+
+            <div class="page-tools">
+                <div class="page-tools__breadcrumbs">
+                    <div class="breadcrumbs">
+                        <div class="breadcrumbs__container">
+                            <ol class="breadcrumbs__list">
+                                <li class="breadcrumbs__item">
+                                    <a class="breadcrumbs__link" href="/">
+                                        <svg class="icon-icon-home breadcrumbs__icon">
+                                            <use xlink:href="#icon-home"></use>
+                                        </svg>
+                                        <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
+                                            <use xlink:href="#icon-keyboard-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumbs__item active">
+                                    <span class="breadcrumbs__link">My Profile</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row--md justify-content-center">
+                <div class="col-12 col-lg-6">
+
+                    <form action="/profile/update" method="POST" enctype="multipart/form-data">
+
+                        <!-- Profile Photo -->
+                        <div class="col-12 form-group form-group--lg" style="text-align:center;">
+                            <div style="position:relative; display:inline-block;">
+                                <img id="profilePreview"
+                                    src="<%= admin.profile_image ? '/uploads/profile/' + admin.profile_image : '/img/content/humans/item-4.jpg' %>"
+                                    alt="Profile Photo"
+                                    style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid #e0e0e0;" />
+                                <label for="profilePhotoInput"
+                                    style="position:absolute; bottom:0; right:0; background:#EFBF04; color:white; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                                    <i class="fa-solid fa-camera" style="font-size:11px;"></i>
+                                </label>
+                                <input type="file" id="profilePhotoInput" name="profile_image"
+                                    accept="image/jpeg,image/png,.jpg,.jpeg,.png" style="display:none;"
+                                    onchange="previewPhoto(this)" />
+                            </div>
+                            <p style="color:#888; font-size:13px; margin-top:8px;">Click camera icon to change photo</p>
+                        </div>
+
+                        <!-- First Name -->
+                        <div class="col-12 form-group form-group--lg">
+                            <label class="form-label">First Name</label>
+                            <div class="input-group">
+                                <input class="input" type="text" name="fname" value="<%= admin.fname || '' %>"
+                                    placeholder="Enter first name" required />
+                            </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="col-12 form-group form-group--lg">
+                            <label class="form-label">Last Name</label>
+                            <div class="input-group">
+                                <input class="input" type="text" name="lname" value="<%= admin.lname || '' %>"
+                                    placeholder="Enter last name" required />
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-12 form-group form-group--lg">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <input class="input" type="email" name="email" value="<%= admin.email || '' %>"
+                                    placeholder="Enter email" required />
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="col-12" style="margin: 8px 0 16px 0;">
+                            <hr />
+                            <p style="font-weight:600; margin-top:16px;">
+                                <i class="fa-solid fa-lock" style="margin-right:6px;"></i>
+                                Change Password
+                                <span style="font-weight:normal; color:#888; font-size:13px;"> (leave blank to keep
+                                    current)</span>
+                            </p>
+                        </div>
+
+                        <!-- New Password -->
+                        <div class="col-12 form-group form-group--lg">
+                            <label class="form-label">New Password</label>
+                            <div class="input-group input-group--append">
+                                <input class="input" type="password" id="newPassword" name="new_password"
+                                    placeholder="Enter new password" minlength="6" />
+                                <span class="input-group__append" onclick="togglePass('newPassword')"
+                                    style="cursor:pointer; padding: 0 14px; display:flex; align-items:center;">
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="col-12 form-group form-group--lg">
+                            <label class="form-label">Confirm Password</label>
+                            <div class="input-group input-group--append">
+                                <input class="input" type="password" id="confirmPassword" name="confirm_password"
+                                    placeholder="Confirm new password" />
+                                <span class="input-group__append" onclick="togglePass('confirmPassword')"
+                                    style="cursor:pointer; padding: 0 14px; display:flex; align-items:center;">
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="col-12 form-group"
+                            style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+                            <a href="/" class="button button--secondary">Cancel</a>
+                            <button type="submit" class="button button--primary"
+                                style="background-color:#EFBF04; border-color:#EFBF04;">
+                                <i class="fa-solid fa-floppy-disk" style="margin-right:6px;"></i> Save Changes
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function previewPhoto(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profilePreview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function togglePass(id) {
+            const el = document.getElementById(id);
+            el.type = el.type === 'password' ? 'text' : 'password';
+        }
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const np = document.getElementById('newPassword').value;
+            const cp = document.getElementById('confirmPassword').value;
+            if (np && np !== cp) {
+                e.preventDefault();
+                alert('New password and confirm password do not match.');
+            }
+        });
+    </script>
+
+    <%- include('../layout/footer.ejs') %>
