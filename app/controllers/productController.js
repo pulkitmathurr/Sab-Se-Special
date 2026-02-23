@@ -53,25 +53,25 @@ const productController = {
     },
 
     addGallery: async (req, res) => {
-        try {
-            const admin_token = req.session.user.token;
-            const { name } = req.body;
-            const image = req.file ? req.file.filename : null;
+    try {
+        const admin_token = req.session.user.token;
+        const image = req.file ? req.file.filename : null;
 
-            if (!name || !image) {
-                req.setFlash('error', 'Name and image are required.');
-                return res.redirect('/panel/product-gallery');
-            }
-
-            const slug = generateSlug(name);
-            await insertGallery({ admin_token, name, slug, image });
-            return res.redirect('/panel/product-gallery');
-        } catch (error) {
-            console.error("Error in addGallery:", error);
-            req.setFlash('error', 'Failed to add gallery post.');
+        if (!image) {
+            req.setFlash('error', 'Image is required.');
             return res.redirect('/panel/product-gallery');
         }
-    },
+
+        const name = image;
+        const slug = generateSlug(name);
+        await insertGallery({ admin_token, name, slug, image });
+        return res.redirect('/panel/product-gallery');
+    } catch (error) {
+        console.error("Error in addGallery:", error);
+        req.setFlash('error', 'Failed to add gallery post.');
+        return res.redirect('/panel/product-gallery');
+    }
+},
 
     editGallery: async (req, res) => {
         try {

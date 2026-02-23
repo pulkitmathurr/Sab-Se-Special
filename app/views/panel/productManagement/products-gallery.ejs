@@ -40,7 +40,7 @@
             </div>
 
             <% if (locals.success_msg && success_msg.length> 0) { %>
-                <div style="background:#28a745;color:white;padding:12px 18px;border-radius:6px;margin-bottom:16px;">
+                <div style="background:#333447;color:white;padding:12px 18px;border-radius:6px;margin-bottom:16px;">
                     ✅ <%= success_msg %>
                 </div>
                 <% } %>
@@ -57,21 +57,7 @@
                                     </div>
                                     <div class="toolbox__right col-12 col-lg-auto">
                                         <div class="toolbox__right-row row row--xs flex-nowrap">
-                                            <div class="col col-lg-auto">
-                                                <form class="toolbox__search" method="GET"
-                                                    action="/panel/product-gallery">
-                                                    <div class="input-group input-group--white input-group--prepend">
-                                                        <div class="input-group__prepend">
-                                                            <svg class="icon-icon-search">
-                                                                <use xlink:href="#icon-search"></use>
-                                                            </svg>
-                                                        </div>
-                                                        <input class="input" type="text" name="search"
-                                                            placeholder="Search gallery"
-                                                            value="<%= locals.search || '' %>">
-                                                    </div>
-                                                </form>
-                                            </div>
+
                                             <div class="col-auto">
                                                 <button class="button-add button-add--blue" data-modal="#addGallery"
                                                     style="background-color:#EFBF04; border-color:#EFBF04;">
@@ -105,16 +91,10 @@
                                                         enctype="multipart/form-data">
                                                         <div class="row row--md">
                                                             <div class="col-12 form-group form-group--lg">
-                                                                <label class="form-label">Name</label>
-                                                                <div class="input-group">
-                                                                    <input class="input" name="name" type="text"
-                                                                        placeholder="Enter name" required />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 form-group form-group--lg">
                                                                 <label class="form-label">Image</label>
                                                                 <input class="input" type="file" name="image"
-                                                                    accept="image/*" required />
+                                                                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                                                                    required />
                                                             </div>
                                                         </div>
                                                 </div>
@@ -126,7 +106,7 @@
                                                             <button type="submit"
                                                                 class="button button--primary button--block"
                                                                 style="background-color:#EFBF04; border-color:#EFBF04;">
-                                                                Add Post
+                                                                Add Image
                                                             </button>
                                                         </div>
                                                         <div class="modal__footer-button">
@@ -159,32 +139,27 @@
                                                         <% } %>
                                                 </div>
 
-                                                <p class="gallery-card__name">
-                                                    <%= item.name %>
-                                                </p>
+
 
                                                 <div class="gallery-card__actions">
-                                                    <a class="gallery-card__action-btn gallery-card__action-btn--edit"
-                                                        href="#"
-                                                        onclick="openEdit('<%= item.id %>', '<%= item.name.replace(/'/g, String.fromCharCode(39)) %>', '<%= item.image %>')">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    <button type="button"
+                                                        class="gallery-card__action-btn gallery-card__action-btn--edit"
+                                                        title="Copy image link"
+                                                        onclick="copyLink('/uploads/gallery/<%= item.image %>')">
+                                                        <i class="fa-solid fa-link"></i>
+                                                    </button>
+                                                    <a class="gallery-card__action-btn gallery-card__action-btn--toggle"
+                                                        href="/uploads/gallery/<%= item.image %>"
+                                                        download="<%= item.image %>" title="Download">
+                                                        <i class="fa-solid fa-download"></i>
                                                     </a>
-                                                    <form action="/panel/product-gallery/toggle-status" method="POST"
-                                                        style="display:inline;">
-                                                        <input type="hidden" name="id" value="<%= item.id %>" />
-                                                        <input type="hidden" name="status"
-                                                            value="<%= item.status == 1 ? 0 : 1 %>" />
-                                                        <button type="submit"
-                                                            class="gallery-card__action-btn gallery-card__action-btn--toggle">
-                                                            <i class="fa-solid fa-ban"></i>
-                                                        </button>
-                                                    </form>
                                                     <form action="/panel/product-gallery/delete" method="POST"
                                                         style="display:inline;"
                                                         onsubmit="return confirm('Delete this post?')">
                                                         <input type="hidden" name="id" value="<%= item.id %>" />
                                                         <button type="submit"
-                                                            class="gallery-card__action-btn gallery-card__action-btn--danger">
+                                                            class="gallery-card__action-btn gallery-card__action-btn--danger"
+                                                            title="Delete">
                                                             <i class="fa-solid fa-trash"></i>
                                                         </button>
                                                     </form>
@@ -263,15 +238,47 @@
         </div>
     </div>
 
+    <div class="table-wrapper__footer">
+        <div class="row">
+            <div class="table-wrapper__show-result col text-grey"><span class="d-none d-sm-inline-block">Showing</span>
+                1 to 10
+                <span class="d-none d-sm-inline-block">of 50 items</span>
+            </div>
+            <div class="table-wrapper__pagination col-auto">
+                <ol class="pagination">
+                    <li class="pagination__item">
+                        <a class="pagination__arrow pagination__arrow--prev" href="#">
+                            <svg class="icon-icon-keyboard-left">
+                                <use xlink:href="#icon-keyboard-left"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="pagination__item active"><a class="pagination__link" href="#">1</a>
+                    </li>
+                    <li class="pagination__item"><a class="pagination__link" href="#">2</a>
+                    </li>
+                    <li class="pagination__item"><a class="pagination__link" href="#">3</a>
+                    </li>
+                    <li class="pagination__item pagination__item--dots">...</li>
+                    <li class="pagination__item"><a class="pagination__link" href="#">10</a>
+                    </li>
+                    <li class="pagination__item">
+                        <a class="pagination__arrow pagination__arrow--next" href="#">
+                            <svg class="icon-icon-keyboard-right">
+                                <use xlink:href="#icon-keyboard-right"></use>
+                            </svg>
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
     <script>
-        function openEdit(id, name, image) {
-            document.getElementById('editId').value = id;
-            document.getElementById('editName').value = name;
-            document.getElementById('editImagePreview').src = '/uploads/gallery/' + image;
-
-            var modal = document.getElementById('editGallery');
-            modal.classList.add('is-active');
-            modal.classList.add('is-animate');
+        function copyLink(path) {
+            const fullUrl = window.location.origin + path;
+            navigator.clipboard.writeText(fullUrl).then(function () {
+                alert('Image link copied!');
+            });
         }
     </script>
 

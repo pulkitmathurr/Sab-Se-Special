@@ -7,16 +7,13 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 //main categories
 router.get("/main-categories",checkEmptySession,categoryController.mainCategories);
 router.get("/panel/main-categories", checkEmptySession, categoryController.mainCategories);
-//add main category
+
 router.post("/add-main-category",checkEmptySession,upload.single("image"),categoryController.addMainCategory);
 
-//edit main category
 router.post("/panel/edit-main-category",checkEmptySession,upload.single("image"),categoryController.editMainCategory);
 
-//delete main category
 router.post("/panel/delete-main-category",checkEmptySession,categoryController.deleteMainCategory);
 
-//unpublish main category
 router.post("/panel/unpublish-main-category",checkEmptySession,categoryController.unpublishMainCategory);
 
 
@@ -53,6 +50,24 @@ router.post("/panel/add-child-category", checkEmptySession, (req, res, next) => 
     req.uploadFolder = 'childcategories';
     next();
 }, upload.single("image"), categoryController.addChildCategory);
+
+// Grand Child Categories
+router.get("/panel/grand-child-categories", checkEmptySession, categoryController.grandChildCategories);
+
+router.post("/panel/add-grand-child-category", checkEmptySession, (req, res, next) => {
+    req.uploadFolder = 'grandchildcategories';
+    next();
+}, upload.single("image"), categoryController.addGrandChildCategory);
+
+router.post("/panel/edit-grand-child-category", checkEmptySession, (req, res, next) => {
+    req.uploadFolder = 'grandchildcategories';
+    next();
+}, upload.single("image"), categoryController.editGrandChildCategory);
+
+router.post("/panel/delete-grand-child-category", checkEmptySession, categoryController.deleteGrandChildCategory);
+
+router.post("/panel/unpublish-grand-child-category", checkEmptySession, categoryController.unpublishGrandChildCategory);
+
 
 
 module.exports = router;

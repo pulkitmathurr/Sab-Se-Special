@@ -965,7 +965,7 @@
                       </li>
                       <li class="sidebar__menu-item">
                         <a class="sidebar__link" href="#" data-toggle="collapse" data-target="#categoriesMenu"
-                          aria-expanded="<%= ['/main-categories', '/panel/sub-categories', '/panel/child-categories'].some(p => currentPath.includes(p)) ? 'true' : 'false' %>">
+                          aria-expanded="<%= ['/main-categories', '/panel/sub-categories', '/panel/child-categories', '/panel/grand-child-categories'].some(p => currentPath.includes(p)) ? 'true' : 'false' %>">
                           <span class="sidebar__link-icon">
                             <i class="fa-solid fa-layer-group"></i>
                           </span>
@@ -976,7 +976,7 @@
                         </a>
 
                         <div
-                          class="collapse <%= ['/main-categories', '/panel/sub-categories', '/panel/child-categories'].some(p => currentPath.includes(p)) ? 'show' : '' %>"
+                          class="collapse <%= ['/main-categories', '/panel/sub-categories', '/panel/child-categories', '/panel/grand-child-categories'].some(p => currentPath.includes(p)) ? 'show' : '' %>"
                           id="categoriesMenu">
                           <ul class="sidebar__collapse-menu">
                             <li class="sidebar__menu-item">
@@ -996,6 +996,13 @@
                                 <span class="sidebar__link-text">Child Categories</span>
                               </a>
                             </li>
+
+                            <li class="sidebar__menu-item">
+                              <a class="sidebar__link" href="/panel/grand-child-categories">
+                                <span class="sidebar__link-text">Grand Child Categories</span>
+                              </a>
+                            </li>
+
                           </ul>
                         </div>
                       </li>

@@ -1,0 +1,606 @@
+<%- include('../../layout/header.ejs') %>
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-header__title">Grand Child Categories</h1>
+            </div>
+            <div class="page-tools">
+                <div class="page-tools__breadcrumbs">
+                    <div class="breadcrumbs">
+                        <div class="breadcrumbs__container">
+                            <ol class="breadcrumbs__list">
+                                <li class="breadcrumbs__item">
+                                    <a class="breadcrumbs__link" href="/">
+                                        <svg class="icon-icon-home breadcrumbs__icon">
+                                            <use xlink:href="#icon-home"></use>
+                                        </svg>
+                                        <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
+                                            <use xlink:href="#icon-keyboard-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumbs__item disabled">
+                                    <a class="breadcrumbs__link" href="#">
+                                        <span>Categories</span>
+                                        <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
+                                            <use xlink:href="#icon-keyboard-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="breadcrumbs__item active">
+                                    <span class="breadcrumbs__link">Grand Child Categories</span>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="toolbox">
+                <div class="toolbox__row row gutter-bottom-xs">
+                    <div class="toolbox__left col-12 col-lg">
+                        <div class="toolbox__left-row row row--xs gutter-bottom-xs">
+                            <div class="form-group form-group--inline col-12 col-sm-auto">
+                                <label class="form-label">Show</label>
+                                <div class="input-group input-group--white input-group--append">
+                                    <input class="input input--select" type="text" value="10" size="1"
+                                        data-toggle="dropdown" readonly><span class="input-group__arrow">
+                                        <svg class="icon-icon-keyboard-down">
+                                            <use xlink:href="#icon-keyboard-down"></use>
+                                        </svg></span>
+                                    <div
+                                        class="dropdown-menu dropdown-menu--right dropdown-menu--fluid js-dropdown-select">
+                                        <a class="dropdown-menu__item active" href="#" tabindex="0"
+                                            data-value="10">10</a><a class="dropdown-menu__item" href="#" tabindex="0"
+                                            data-value="15">15</a><a class="dropdown-menu__item" href="#" tabindex="0"
+                                            data-value="20">20</a>
+                                        <a class="dropdown-menu__item" href="#" tabindex="0" data-value="25">25</a><a
+                                            class="dropdown-menu__item" href="#" tabindex="0" data-value="50">50</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-group--inline col col-sm-auto">
+                                <div class="input-group input-group--white input-group--append">
+                                    <select class="input js-input-select" data-placeholder="">
+                                        <option value="1" selected="selected">All Categories
+                                        </option>
+                                        <option value="2">MacBook
+                                        </option>
+                                        <option value="3">Apple Watch
+                                        </option>
+                                        <option value="4">AirPods
+                                        </option>
+                                        <option value="5">iPhone
+                                        </option>
+                                        <option value="6">IPad
+                                        </option>
+                                    </select><span class="input-group__arrow">
+                                        <svg class="icon-icon-keyboard-down">
+                                            <use xlink:href="#icon-keyboard-down"></use>
+                                        </svg></span>
+                                </div>
+                            </div>
+                            <div class="form-group form-group--inline col-12 col-sm-auto d-none d-sm-block">
+                                <div class="toolbox__status input-group input-group--white input-group--append">
+                                    <input class="input input--select" type="text" value="All status"
+                                        data-toggle="dropdown" readonly><span class="input-group__arrow">
+                                        <svg class="icon-icon-keyboard-down">
+                                            <use xlink:href="#icon-keyboard-down"></use>
+                                        </svg></span>
+                                    <div
+                                        class="dropdown-menu dropdown-menu--right dropdown-menu--fluid js-dropdown-select">
+                                        <a class="dropdown-menu__item active" href="#" tabindex="0"
+                                            data-value="All status"><span class="marker-item"></span>
+                                            All status</a>
+                                        <a class="dropdown-menu__item" href="#" tabindex="0"
+                                            data-value="Published"><span class="marker-item color-green"></span>
+                                            Published</a><a class="dropdown-menu__item" href="#" tabindex="0"
+                                            data-value="Deleted"><span class="marker-item color-red"></span>
+                                            Deleted</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="toolbox__right col-12 col-lg-auto">
+                        <div class="toolbox__right-row row row--xs flex-nowrap">
+                            <div class="col col-lg-auto">
+                                <form class="toolbox__search" method="GET" action="/panel/grand-child-categories">
+                                    <div class="input-group input-group--white input-group--prepend">
+                                        <div class="input-group__prepend">
+                                            <svg class="icon-icon-search">
+                                                <use xlink:href="#icon-search"></use>
+                                            </svg>
+                                        </div>
+                                        <input class="input" type="text" name="search"
+                                            placeholder="Search grand child category"
+                                            value="<%= locals.search || '' %>">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-auto">
+                                <button class="button-add button-add--blue" data-modal="#addGrandChild"
+                                    style="background-color: #EFBF04;">
+                                    <span class="button-add__icon">
+                                        <svg class="icon-icon-plus">
+                                            <use xlink:href="#icon-plus"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="button-add__text"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Modal -->
+            <div class="modal modal--panel modal--right" id="addGrandChild">
+                <div class="modal__overlay" data-dismiss="modal"></div>
+                <div class="modal__wrap">
+                    <div class="modal__window scrollbar-thin" data-simplebar>
+                        <div class="modal__content">
+                            <div class="modal__header">
+                                <div class="modal__container">
+                                    <h2 class="modal__title">Add Grand Child Category</h2>
+                                </div>
+                            </div>
+                            <div class="modal__body">
+                                <div class="modal__container">
+                                    <form action="/panel/add-grand-child-category" method="POST"
+                                        enctype="multipart/form-data">
+                                        <div class="row row--md">
+
+                                            <!-- Main Category -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Main Category</label>
+                                                <div class="input-group">
+                                                    <select class="input" name="category_token" id="addMainCatSelect"
+                                                        required>
+                                                        <option value="">Select Main Category</option>
+                                                        <% categories.forEach((cat)=> { %>
+                                                            <option value="<%= cat.category_token %>">
+                                                                <%= cat.name %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Sub Category -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Sub Category</label>
+                                                <div class="input-group">
+                                                    <select class="input" name="sub_category_token" id="addSubCatSelect"
+                                                        required>
+                                                        <option value="">Select Sub Category</option>
+                                                        <% subcategories.forEach((sub)=> { %>
+                                                            <option value="<%= sub.sub_category_token %>"
+                                                                data-parent="<%= sub.category_token %>">
+                                                                <%= sub.name %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Child Category -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Child Category</label>
+                                                <div class="input-group">
+                                                    <select class="input" name="child_category_token"
+                                                        id="addChildCatSelect" required>
+                                                        <option value="">Select Child Category</option>
+                                                        <% childCategories.forEach((child)=> { %>
+                                                            <option value="<%= child.child_category_token %>"
+                                                                data-parent="<%= child.sub_category_token %>">
+                                                                <%= child.name %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <!-- Name -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Grand Child Category
+                                                    Name</label>
+                                                <div class="input-group">
+                                                    <input class="input" name="name" type="text"
+                                                        placeholder="Enter grand child category name" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Description -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Description</label>
+                                                <textarea name="description" class="input"
+                                                    placeholder="Enter Description" rows="4"></textarea>
+                                            </div>
+
+                                            <!-- Image -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Category Image</label>
+                                                <input class="input" type="file" name="image" accept="image/*" />
+                                            </div>
+
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="modal__footer">
+                                <div class="modal__container">
+                                    <div class="modal__footer-buttons">
+                                        <div class="form-group">
+                                            <button type="submit" class="button button--primary button--block"
+                                                style="background-color: #EFBF04;">
+                                                Create Category
+                                            </button>
+                                        </div>
+                                        <div class="modal__footer-button">
+                                            <button class="button button--secondary button--block" data-dismiss="modal">
+                                                <span class="button__text">Cancel</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-wrapper">
+                <div class="table-wrapper__content table-products table-collapse scrollbar-thin scrollbar-visible"
+                    data-simplebar>
+                    <table class="table table--lines">
+                        <colgroup>
+                            <col class="colgroup-1">
+                            <col class="colgroup-2">
+                            <col class="colgroup-3">
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead class="table__header">
+                            <tr class="table__header-row">
+                                <th class="d-none d-lg-table-cell"><span>Sr No.</span></th>
+                                <th class="table__th-sort"><span class="align-middle">Image</span><span
+                                        class="sort sort--down"></span></th>
+                                <th class="table__th-sort"><span class="align-middle">Main Category</span><span
+                                        class="sort sort--down"></span></th>
+                                <th class="table__th-sort"><span class="align-middle">Sub Category</span><span
+                                        class="sort sort--down"></span></th>
+                                <th class="table__th-sort"><span class="align-middle">Child Category</span><span
+                                        class="sort sort--down"></span></th>
+                                <th class="table__th-sort"><span class="align-middle">Grand Child Name</span><span
+                                        class="sort sort--down"></span></th>
+                                <th class="table__th-sort"><span class="align-middle">Status</span><span
+                                        class="sort sort--down"></span></th>
+                                <th class="table__th-sort d-none d-lg-table-cell"><span class="align-middle">Created
+                                        At</span><span class="sort sort--down"></span></th>
+                                <th class="table__th-sort d-none d-sm-table-cell"><span
+                                        class="align-middle">Action</span></th>
+                                <th class="table__actions"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (grandChildCategories && grandChildCategories.length> 0) { %>
+                                <% grandChildCategories.forEach((item, index)=> { %>
+                                    <tr class="table__row">
+
+                                        <td class="d-none d-lg-table-cell table__td">
+                                            <%= index + 1 %>
+                                        </td>
+
+                                        <td class="table__td">
+                                            <% if (item.image) { %>
+                                                <img src="/uploads/grandchildcategories/<%= item.image %>" alt="image"
+                                                    style="width:50px;height:50px;object-fit:cover;border-radius:6px;">
+                                                <% } else { %>
+                                                    -
+                                                    <% } %>
+                                        </td>
+
+                                        <td class="table__td">
+                                            <%= item.main_category_name || '-' %>
+                                        </td>
+
+                                        <td class="table__td">
+                                            <%= item.sub_category_name || '-' %>
+                                        </td>
+
+                                        <td class="table__td">
+                                            <%= item.child_category_name || '-' %>
+                                        </td>
+
+                                        <td class="table__td">
+                                            <%= item.name %>
+                                        </td>
+
+                                        <td class="table__td">
+                                            <% if (item.status==1) { %>
+                                                <span class="text-success">Active</span>
+                                                <% } else { %>
+                                                    <span class="text-danger">Inactive</span>
+                                                    <% } %>
+                                        </td>
+
+                                        <td class="d-none d-lg-table-cell table__td">
+                                            <%= new Date(item.created_at).toLocaleDateString() %>
+                                        </td>
+
+                                        <td class="d-none d-sm-table-cell table__td">
+                                            <div class="card__tools-more">
+                                                <button class="items-more__button">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </button>
+                                                <div class="dropdown-items dropdown-items--left dropdown-items--down">
+                                                    <div class="dropdown-items__container">
+                                                        <ul class="dropdown-items__list">
+
+                                                            <!-- Edit -->
+                                                            <li class="dropdown-items__item">
+                                                                <a class="dropdown-items__link" href="#"
+                                                                    data-modal="#editGrandChild"
+                                                                    data-token="<%= item.grand_child_category_token %>"
+                                                                    data-cat-token="<%= item.category_token %>"
+                                                                    data-sub-token="<%= item.sub_category_token %>"
+                                                                    data-child-token="<%= item.child_category_token %>"
+                                                                    data-name="<%= item.name %>"
+                                                                    data-description="<%= item.description || '' %>"
+                                                                    onclick="fillEditForm(this)"
+                                                                    style="padding:0;width:100%;text-align:left;">
+                                                                    <span class="dropdown-items__link-icon">
+                                                                        <svg class="icon-icon-task">
+                                                                            <use xlink:href="#icon-task"></use>
+                                                                        </svg>
+                                                                    </span>
+                                                                    Edit
+                                                                </a>
+                                                            </li>
+
+                                                            <!-- Publish/Unpublish -->
+                                                            <li class="dropdown-items__item">
+                                                                <form action="/panel/unpublish-grand-child-category"
+                                                                    method="POST" style="margin:0;">
+                                                                    <input type="hidden"
+                                                                        name="grand_child_category_token"
+                                                                        value="<%= item.grand_child_category_token %>">
+                                                                    <button type="submit" class="dropdown-items__link"
+                                                                        style="background:none;border:none;padding:0;width:100%;text-align:left;">
+                                                                        <span class="dropdown-items__link-icon">
+                                                                            <i class="fa-solid fa-ban"></i>
+                                                                        </span>
+                                                                        <%= item.status==1 ? 'Unpublish' : 'Publish' %>
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+
+                                                            <!-- Delete -->
+                                                            <li class="dropdown-items__item">
+                                                                <form action="/panel/delete-grand-child-category"
+                                                                    method="POST"
+                                                                    onsubmit="return confirm('Are you sure?')"
+                                                                    style="margin:0;">
+                                                                    <input type="hidden"
+                                                                        name="grand_child_category_token"
+                                                                        value="<%= item.grand_child_category_token %>">
+                                                                    <button type="submit" class="dropdown-items__link"
+                                                                        style="background:none;border:none;padding:0;width:100%;text-align:left;">
+                                                                        <span class="dropdown-items__link-icon">
+                                                                            <svg class="icon-icon-trash">
+                                                                                <use xlink:href="#icon-trash"></use>
+                                                                            </svg>
+                                                                        </span>
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="table__actions"></td>
+
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="10" class="text-center" style="padding:40px;color:#888;">No
+                                                    grand child categories found</td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal modal--panel modal--right" id="editGrandChild">
+            <div class="modal__overlay" data-dismiss="modal"></div>
+            <div class="modal__wrap">
+                <div class="modal__window scrollbar-thin" data-simplebar>
+                    <div class="modal__content">
+                        <div class="modal__header">
+                            <div class="modal__container">
+                                <h2 class="modal__title">Edit Grand Child Category</h2>
+                            </div>
+                        </div>
+                        <div class="modal__body">
+                            <div class="modal__container">
+                                <form id="editGrandChildForm" action="/panel/edit-grand-child-category" method="POST"
+                                    enctype="multipart/form-data">
+                                    <div class="row row--md">
+
+                                        <input type="hidden" name="grand_child_category_token" id="edit_token">
+
+                                        <!-- Main Category -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Main Category</label>
+                                            <div class="input-group">
+                                                <select class="input" name="category_token" id="edit_cat_token"
+                                                    required>
+                                                    <option value="">Select Main Category</option>
+                                                    <% categories.forEach((cat)=> { %>
+                                                        <option value="<%= cat.category_token %>">
+                                                            <%= cat.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sub Category -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Sub Category</label>
+                                            <div class="input-group">
+                                                <select class="input" name="sub_category_token" id="edit_sub_token"
+                                                    required>
+                                                    <option value="">Select Sub Category</option>
+                                                    <% subcategories.forEach((sub)=> { %>
+                                                        <option value="<%= sub.sub_category_token %>">
+                                                            <%= sub.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Child Category -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Child Category</label>
+                                            <div class="input-group">
+                                                <select class="input" name="child_category_token" id="edit_child_token"
+                                                    required>
+                                                    <option value="">Select Child Category</option>
+                                                    <% childCategories.forEach((child)=> { %>
+                                                        <option value="<%= child.child_category_token %>"
+                                                            data-parent="<%= child.sub_category_token %>">
+                                                            <%= child.name %>
+                                                        </option>
+                                                        <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Name -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Grand Child Category Name</label>
+                                            <div class="input-group">
+                                                <input class="input" name="name" id="edit_name" type="text"
+                                                    placeholder="Enter name" required>
+                                            </div>
+                                        </div>
+
+                                        <!-- Description -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Description</label>
+                                            <textarea name="description" id="edit_description" class="input"
+                                                placeholder="Enter Description" rows="4"></textarea>
+                                        </div>
+
+                                        <!-- Image -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Category Image <span
+                                                    style="color:#888;font-weight:normal;font-size:12px;">(leave blank
+                                                    to keep current)</span></label>
+                                            <input class="input" type="file" name="image" accept="image/*" />
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="modal__container">
+                                <div class="modal__footer-buttons">
+                                    <div class="form-group">
+                                        <button type="submit" form="editGrandChildForm"
+                                            class="button button--primary button--block"
+                                            style="background-color: #EFBF04;">
+                                            Update Category
+                                        </button>
+                                    </div>
+                                    <div class="modal__footer-button">
+                                        <button class="button button--secondary button--block" data-dismiss="modal">
+                                            <span class="button__text">Cancel</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        document.getElementById('addMainCatSelect').addEventListener('change', function () {
+            const selectedToken = this.value;
+            const subSelect = document.getElementById('addSubCatSelect');
+
+            if (!subSelect.dataset.allOptions) {
+                subSelect.dataset.allOptions = subSelect.innerHTML;
+            }
+            subSelect.innerHTML = subSelect.dataset.allOptions;
+            subSelect.querySelectorAll('option').forEach(opt => {
+                if (!opt.value) return;
+                if (opt.dataset.parent !== selectedToken) opt.remove();
+            });
+
+            const childSelect = document.getElementById('addChildCatSelect');
+            if (!childSelect.dataset.allOptions) {
+                childSelect.dataset.allOptions = childSelect.innerHTML;
+            }
+            childSelect.innerHTML = childSelect.dataset.allOptions;
+        });
+
+        document.getElementById('addSubCatSelect').addEventListener('change', function () {
+            filterChildOptions('addChildCatSelect', this.value);
+        });
+
+        document.getElementById('edit_sub_token').addEventListener('change', function () {
+            filterChildOptions('edit_child_token', this.value);
+        });
+
+        function filterChildOptions(selectId, selectedSubToken) {
+            const childSelect = document.getElementById(selectId);
+
+            if (!childSelect.dataset.allOptions) {
+                childSelect.dataset.allOptions = childSelect.innerHTML;
+            }
+            childSelect.innerHTML = childSelect.dataset.allOptions;
+
+            if (selectedSubToken) {
+                childSelect.querySelectorAll('option').forEach(opt => {
+                    if (!opt.value) return;
+                    if (opt.dataset.parent !== selectedSubToken) opt.remove();
+                });
+            }
+        }
+
+        function fillEditForm(el) {
+            document.getElementById('edit_token').value = el.dataset.token;
+            document.getElementById('edit_cat_token').value = el.dataset.catToken;
+            document.getElementById('edit_name').value = el.dataset.name;
+            document.getElementById('edit_description').value = el.dataset.description || '';
+
+            document.getElementById('edit_sub_token').value = el.dataset.subToken;
+            filterChildOptions('edit_child_token', el.dataset.subToken);
+
+            document.getElementById('edit_child_token').value = el.dataset.childToken;
+        }
+    </script>
+
+    <%- include('../../layout/footer.ejs') %>

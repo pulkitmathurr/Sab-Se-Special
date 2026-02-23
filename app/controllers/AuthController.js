@@ -1,6 +1,13 @@
 const { key } = require("../config/config");
 const customFunction = require("../middleware/customFunction");
-const { getAdminData, insertLoginHistory, getAdminDataByToken, updateProfileModel } = require("../models/authModel");
+const {
+  getAdminData,
+  insertLoginHistory,
+  getAdminDataByToken,
+  updateProfileModel,
+  updatePasswordModel,
+  updatePassword,
+} = require("../models/authModel");
 
 const AuthController = {
   login: (req, res) => {
@@ -74,17 +81,20 @@ const AuthController = {
       });
     } catch (err) {
       console.log(err);
-      req.setFlash("error", "There was an error logging in. Please try again later.");
+      req.setFlash(
+        "error",
+        "There was an error logging in. Please try again later.",
+      );
       return res.redirect("/login");
     }
   },
 
   getProfile: async (req, res) => {
     try {
-      res.render('panel/profile', { title: 'My Profile' });
+      res.render("panel/profile", { title: "My Profile" });
     } catch (error) {
       console.error(error);
-      res.status(500).send('Internal Server Error');
+      res.status(500).send("Internal Server Error");
     }
   },
 
@@ -95,53 +105,48 @@ const AuthController = {
       const profileImage = req.file ? req.file.filename : null;
 
       if (!customFunction.validateEmail(email)) {
-        req.setFlash('error', 'Please enter a valid email address.');
-        return res.redirect('/profile');
+        req.setFlash("error", "Please enter a valid email address.");
+        return res.redirect("/profile");
       }
 
       const existingAdmin = await getAdminDataByToken(token);
       if (!existingAdmin || existingAdmin.length === 0) {
-        req.setFlash('error', 'Admin not found.');
-        return res.redirect('/profile');
+        req.setFlash("error", "Admin not found.");
+        return res.redirect("/profile");
       }
 
       const updateData = {
         fname,
         lname,
         email,
-        phone: existingAdmin[0].phone_no || '',
-        designation: existingAdmin[0].designation || '',
-        profileImage
+        phone: existingAdmin[0].phone_no || "",
+        designation: existingAdmin[0].designation || "",
+        profileImage,
       };
 
       await updateProfileModel(token, updateData);
 
-      if (new_password && new_password.trim() !== '') {
+      if (new_password && new_password.trim() !== "") {
         if (new_password !== confirm_password) {
-          req.setFlash('error', 'Passwords do not match.');
-          return res.redirect('/profile');
+          req.setFlash("error", "Passwords do not match.");
+          return res.redirect("/profile");
         }
         if (new_password.length < 6) {
-          req.setFlash('error', 'Password must be at least 6 characters.');
-          return res.redirect('/profile');
+          req.setFlash("error", "Password must be at least 6 characters.");
+          return res.redirect("/profile");
         }
         const encrypted = customFunction.encrypt(new_password, key);
-        const { pool } = require('../config/config');
-        await pool.promise().execute(
-          'UPDATE tbl_admin SET password = ? WHERE token = ?',
-          [encrypted, token]
-        );
+        await updatePasswordModel(token, encrypted);
       }
 
-      req.setFlash('success', 'Profile updated successfully!');
-      return res.redirect('/profile');
+      req.setFlash("success", "Profile updated successfully!");
+      return res.redirect("/profile");
     } catch (error) {
-      console.error('postProfile error:', error);
-      req.setFlash('error', 'Something went wrong: ' + error.message);
-      return res.redirect('/profile');
+      console.error("postProfile error:", error);
+      req.setFlash("error", "Something went wrong: " + error.message);
+      return res.redirect("/profile");
     }
   },
-
 };
 
 module.exports = AuthController;

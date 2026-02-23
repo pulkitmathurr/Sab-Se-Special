@@ -34,6 +34,17 @@ async function getAdminDataByToken(token) {
   }
 }
 
+async function updatePasswordModel(token, encryptedPassword) {
+    const sql = `UPDATE tbl_admin SET password = ? WHERE token = ?`;
+    try {
+        const [result] = await pool.promise().execute(sql, [encryptedPassword, token]);
+        return result;
+    } catch (err) {
+        console.error("Error in updatePasswordModel:", err);
+        throw err;
+    }
+}
+
 async function updatePassword(token, hashedPassword) {
   const sql =
     "UPDATE tbl_admin SET password = ?, reset_token = NULL, reset_token_expire = NULL WHERE token = ?";
@@ -69,4 +80,5 @@ module.exports = {
   getAdminDataByToken,
   updatePassword,
   updateProfileModel,
+  updatePasswordModel,
 };

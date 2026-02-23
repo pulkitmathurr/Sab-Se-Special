@@ -36,25 +36,21 @@
 
                     <form action="/profile/update" method="POST" enctype="multipart/form-data">
 
-                        <!-- Profile Photo -->
-                        <div class="col-12 form-group form-group--lg" style="text-align:center;">
-                            <div style="position:relative; display:inline-block;">
+                        <div class="col-12 form-group form-group--lg profile-photo-wrapper">
+                            <div class="profile-photo-inner">
                                 <img id="profilePreview"
                                     src="<%= admin.profile_image ? '/uploads/profile/' + admin.profile_image : '/img/content/humans/item-4.jpg' %>"
-                                    alt="Profile Photo"
-                                    style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid #e0e0e0;" />
-                                <label for="profilePhotoInput"
-                                    style="position:absolute; bottom:0; right:0; background:#EFBF04; color:white; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
-                                    <i class="fa-solid fa-camera" style="font-size:11px;"></i>
+                                    alt="Profile Photo" class="profile-photo-img" />
+                                <label for="profilePhotoInput" class="profile-photo-label">
+                                    <i class="fa-solid fa-camera"></i>
                                 </label>
                                 <input type="file" id="profilePhotoInput" name="profile_image"
                                     accept="image/jpeg,image/png,.jpg,.jpeg,.png" style="display:none;"
                                     onchange="previewPhoto(this)" />
                             </div>
-                            <p style="color:#888; font-size:13px; margin-top:8px;">Click camera icon to change photo</p>
+                            <p class="profile-photo-hint">Click camera icon to change photo</p>
                         </div>
 
-                        <!-- First Name -->
                         <div class="col-12 form-group form-group--lg">
                             <label class="form-label">First Name</label>
                             <div class="input-group">
@@ -63,7 +59,6 @@
                             </div>
                         </div>
 
-                        <!-- Last Name -->
                         <div class="col-12 form-group form-group--lg">
                             <label class="form-label">Last Name</label>
                             <div class="input-group">
@@ -72,7 +67,6 @@
                             </div>
                         </div>
 
-                        <!-- Email -->
                         <div class="col-12 form-group form-group--lg">
                             <label class="form-label">Email Address</label>
                             <div class="input-group">
@@ -81,50 +75,43 @@
                             </div>
                         </div>
 
-                        <!-- Divider -->
-                        <div class="col-12" style="margin: 8px 0 16px 0;">
+                        <div class="col-12 profile-divider">
                             <hr />
-                            <p style="font-weight:600; margin-top:16px;">
-                                <i class="fa-solid fa-lock" style="margin-right:6px;"></i>
+                            <p>
+                                <i class="fa-solid fa-lock"></i>
                                 Change Password
-                                <span style="font-weight:normal; color:#888; font-size:13px;"> (leave blank to keep
-                                    current)</span>
+                                <span>(leave blank to keep current)</span>
                             </p>
                         </div>
 
-                        <!-- New Password -->
                         <div class="col-12 form-group form-group--lg">
                             <label class="form-label">New Password</label>
                             <div class="input-group input-group--append">
                                 <input class="input" type="password" id="newPassword" name="new_password"
                                     placeholder="Enter new password" minlength="6" />
-                                <span class="input-group__append" onclick="togglePass('newPassword')"
-                                    style="cursor:pointer; padding: 0 14px; display:flex; align-items:center;">
+                                <span class="input-group__append profile-password-toggle"
+                                    onclick="togglePass('newPassword')">
                                     <i class="fa-solid fa-eye"></i>
                                 </span>
                             </div>
                         </div>
 
-                        <!-- Confirm Password -->
                         <div class="col-12 form-group form-group--lg">
                             <label class="form-label">Confirm Password</label>
                             <div class="input-group input-group--append">
                                 <input class="input" type="password" id="confirmPassword" name="confirm_password"
                                     placeholder="Confirm new password" />
-                                <span class="input-group__append" onclick="togglePass('confirmPassword')"
-                                    style="cursor:pointer; padding: 0 14px; display:flex; align-items:center;">
+                                <span class="input-group__append profile-password-toggle"
+                                    onclick="togglePass('confirmPassword')">
                                     <i class="fa-solid fa-eye"></i>
                                 </span>
                             </div>
                         </div>
 
-                        <!-- Buttons -->
-                        <div class="col-12 form-group"
-                            style="display:flex; gap:12px; justify-content:flex-end; margin-top:8px;">
+                        <div class="col-12 form-group profile-form-actions">
                             <a href="/" class="button button--secondary">Cancel</a>
-                            <button type="submit" class="button button--primary"
-                                style="background-color:#EFBF04; border-color:#EFBF04;">
-                                <i class="fa-solid fa-floppy-disk" style="margin-right:6px;"></i> Save Changes
+                            <button type="submit" class="button button--primary profile-save-btn">
+                                <i class="fa-solid fa-floppy-disk"></i> Save Changes
                             </button>
                         </div>
 
