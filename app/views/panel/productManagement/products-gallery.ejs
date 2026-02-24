@@ -87,14 +87,36 @@
                                             </div>
                                             <div class="modal__body">
                                                 <div class="modal__container">
-                                                    <form action="/panel/product-gallery/add" method="POST"
-                                                        enctype="multipart/form-data">
+                                                    <form id="galleryUploadForm" enctype="multipart/form-data">
                                                         <div class="row row--md">
                                                             <div class="col-12 form-group form-group--lg">
-                                                                <label class="form-label">Image</label>
-                                                                <input class="input" type="file" name="image"
+                                                                <label class="form-label">Single Image</label>
+                                                                <input class="input" type="file" id="singleImageInput"
+                                                                    accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" />
+                                                            </div>
+
+                                                            <div class="col-12"
+                                                                style="border-top:1px solid #e0e0e0;margin:8px 0;">
+                                                            </div>
+
+                                                            <div class="col-12 form-group form-group--lg">
+                                                                <label class="form-label">Bulk Images</label>
+                                                                <input class="input" type="file" id="bulkImageInput"
                                                                     accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
-                                                                    required />
+                                                                    multiple />
+                                                            </div>
+
+                                                            <div class="col-12" id="uploadProgress"
+                                                                style="display:none;">
+                                                                <div
+                                                                    style="background:#e9ecef;border-radius:4px;height:10px;overflow:hidden;">
+                                                                    <div id="uploadProgressBar"
+                                                                        style="height:100%;background:#EFBF04;width:0%;transition:width 0.3s;">
+                                                                    </div>
+                                                                </div>
+                                                                <p id="uploadProgressText"
+                                                                    style="font-size:12px;color:#666;margin-top:4px;">
+                                                                </p>
                                                             </div>
                                                         </div>
                                                 </div>
@@ -103,7 +125,7 @@
                                                 <div class="modal__container">
                                                     <div class="modal__footer-buttons">
                                                         <div class="form-group">
-                                                            <button type="submit"
+                                                            <button type="button" id="uploadBtn"
                                                                 class="button button--primary button--block"
                                                                 style="background-color:#EFBF04; border-color:#EFBF04;">
                                                                 Add Image
@@ -240,35 +262,41 @@
 
     <div class="table-wrapper__footer">
         <div class="row">
-            <div class="table-wrapper__show-result col text-grey"><span class="d-none d-sm-inline-block">Showing</span>
-                1 to 10
-                <span class="d-none d-sm-inline-block">of 50 items</span>
+            <div class="table-wrapper__show-result col text-grey">
+                <span class="d-none d-sm-inline-block">Showing</span>
+                <%= (currentPage - 1) * 12 + 1 %> to <%= Math.min(currentPage * 12, totalItems) %>
+                        <span class="d-none d-sm-inline-block">of <%= totalItems %> items</span>
             </div>
             <div class="table-wrapper__pagination col-auto">
                 <ol class="pagination">
-                    <li class="pagination__item">
-                        <a class="pagination__arrow pagination__arrow--prev" href="#">
+
+                  
+                    <li class="pagination__item <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <a class="pagination__arrow pagination__arrow--prev" href="?page=<%= currentPage - 1 %>">
                             <svg class="icon-icon-keyboard-left">
                                 <use xlink:href="#icon-keyboard-left"></use>
                             </svg>
                         </a>
                     </li>
-                    <li class="pagination__item active"><a class="pagination__link" href="#">1</a>
-                    </li>
-                    <li class="pagination__item"><a class="pagination__link" href="#">2</a>
-                    </li>
-                    <li class="pagination__item"><a class="pagination__link" href="#">3</a>
-                    </li>
-                    <li class="pagination__item pagination__item--dots">...</li>
-                    <li class="pagination__item"><a class="pagination__link" href="#">10</a>
-                    </li>
-                    <li class="pagination__item">
-                        <a class="pagination__arrow pagination__arrow--next" href="#">
-                            <svg class="icon-icon-keyboard-right">
-                                <use xlink:href="#icon-keyboard-right"></use>
-                            </svg>
-                        </a>
-                    </li>
+
+                    <% for(let i=1; i <=totalPages; i++) { %>
+                        <li class="pagination__item <%= i === currentPage ? 'active' : '' %>">
+                            <a class="pagination__link" href="?page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                        <% } %>
+
+                            <!-- Next Button -->
+                            <li class="pagination__item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                <a class="pagination__arrow pagination__arrow--next"
+                                    href="?page=<%= currentPage + 1 %>">
+                                    <svg class="icon-icon-keyboard-right">
+                                        <use xlink:href="#icon-keyboard-right"></use>
+                                    </svg>
+                                </a>
+                            </li>
+
                 </ol>
             </div>
         </div>
@@ -280,6 +308,101 @@
                 alert('Image link copied!');
             });
         }
+
+        function compressImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        canvas.toBlob((blob) => {
+                            resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                        }, 'image/jpeg', 0.8);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function uploadInChunks(file, onProgress) {
+            return new Promise(async (resolve, reject) => {
+                const CHUNK_SIZE = 1 * 1024 * 1024;
+                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+                const fileId = Date.now() + '_' + Math.random().toString(36).slice(2);
+
+                for (let i = 0; i < totalChunks; i++) {
+                    const start = i * CHUNK_SIZE;
+                    const end = Math.min(start + CHUNK_SIZE, file.size);
+                    const chunk = file.slice(start, end);
+
+                    const formData = new FormData();
+                    formData.append('chunk', chunk);
+                    formData.append('fileId', fileId);
+                    formData.append('chunkIndex', i);
+                    formData.append('totalChunks', totalChunks);
+                    formData.append('filename', file.name);
+
+                    try {
+                        const res = await fetch('/panel/product-gallery/upload-chunk', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        if (!res.ok) return reject(new Error(`Chunk ${i + 1} failed`));
+                        if (onProgress) onProgress(i + 1, totalChunks);
+                    } catch (err) {
+                        return reject(err);
+                    }
+                }
+                resolve();
+            });
+        }
+
+        document.getElementById('uploadBtn').addEventListener('click', async function () {
+            const singleFile = document.getElementById('singleImageInput').files[0];
+            const bulkFiles = document.getElementById('bulkImageInput').files;
+
+            const rawFiles = bulkFiles.length > 0
+                ? Array.from(bulkFiles)
+                : singleFile ? [singleFile] : null;
+
+            if (!rawFiles) return alert('Please select at least one image.');
+
+            const progressWrap = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('uploadProgressBar');
+            const progressText = document.getElementById('uploadProgressText');
+            progressWrap.style.display = 'block';
+
+            let success = 0, failed = 0;
+
+            for (let i = 0; i < rawFiles.length; i++) {
+                try {
+                    progressText.textContent = `Compressing ${i + 1} of ${rawFiles.length}: ${rawFiles[i].name}`;
+                    const compressed = await compressImage(rawFiles[i]);
+
+                    await uploadInChunks(compressed, (doneChunks, totalChunks) => {
+                        const fileProgress = (i / rawFiles.length) * 100;
+                        const chunkProgress = (doneChunks / totalChunks) * (100 / rawFiles.length);
+                        progressBar.style.width = Math.round(fileProgress + chunkProgress) + '%';
+                        progressText.textContent = `Uploading ${i + 1} of ${rawFiles.length}: ${rawFiles[i].name} — chunk ${doneChunks}/${totalChunks}`;
+                    });
+
+                    success++;
+                } catch (err) {
+                    failed++;
+                    console.error(err);
+                }
+            }
+
+            progressBar.style.width = '100%';
+            progressText.textContent = `✅ ${success} uploaded${failed ? `, ❌ ${failed} failed` : ''}`;
+            setTimeout(() => window.location.reload(), 1500);
+        });
     </script>
 
     <%- include('../../layout/footer.ejs') %>

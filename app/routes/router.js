@@ -15,6 +15,16 @@ router.post("/login", IsAuthenticated, AuthController.postLogin);
 router.get("/", checkEmptySession, DashboardController.index);
 
 router.get("/profile", checkEmptySession, AuthController.getProfile);
-router.post("/profile/update", checkEmptySession, (req, res, next) => { req.uploadFolder = "profile"; next(); }, upload.single("profile_image"), AuthController.postProfile);
+
+router.post(
+  "/profile/update",
+  checkEmptySession,
+  (req, res, next) => {
+    req.uploadFolder = "profile";
+    next();
+  },
+  upload.single("profile_image"),
+  AuthController.postProfile,
+);
 
 module.exports = router;

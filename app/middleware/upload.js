@@ -24,16 +24,16 @@ const storage = multer.diskStorage({
     }
 });
 
-
-// File filter (only images)
 const fileFilter = (req, file, cb) => {
+    if (req.uploadFolder === 'tmp') {
+        return cb(null, true);
+    }
     const allowedTypes = /jpeg|jpg|png|webp/;
     const ext = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-
     if (ext) {
         cb(null, true);
     } else {
-        cb(new Error('Only webp images are allowed'));
+        cb(new Error('Only image files are allowed'));
     }
 };
 
