@@ -23,7 +23,6 @@ const categoryController = {
           req.query.edit,
         );
       }
-
       res.render("panel/categories/main-categories", {
         categories,
         editCategory,
