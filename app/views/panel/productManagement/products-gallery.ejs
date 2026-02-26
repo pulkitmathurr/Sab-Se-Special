@@ -158,7 +158,6 @@
                                 </div>
                             </div>
 
-                            <!-- Gallery Grid -->
                             <div class="table-wrapper">
                                 <div class="gallery-grid">
                                     <% if (locals.gallery && gallery.length> 0) { %>
@@ -172,6 +171,7 @@
                                                         <span class="gallery-card__status-badge">Unpublished</span>
                                                         <% } %>
                                                 </div>
+
                                                 <div class="gallery-card__actions">
                                                     <button type="button"
                                                         class="gallery-card__action-btn gallery-card__action-btn--edit"
@@ -207,8 +207,6 @@
                             </div>
     </main>
 
-
-
     <div class="table-wrapper__footer">
         <div class="row">
             <div class="table-wrapper__show-result col text-grey">
@@ -236,7 +234,6 @@
                         </li>
                         <% } %>
 
-                            <!-- Next Button -->
                             <li class="pagination__item <%= currentPage === totalPages ? 'disabled' : '' %>">
                                 <a class="pagination__arrow pagination__arrow--next"
                                     href="?page=<%= currentPage + 1 %>">
@@ -250,8 +247,6 @@
             </div>
         </div>
     </div>
-
-
     <script>
         function copyLink(path) {
             const fullUrl = window.location.origin + path;
