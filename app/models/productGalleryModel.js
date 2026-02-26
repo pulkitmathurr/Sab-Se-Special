@@ -1,4 +1,7 @@
 const { pool } = require("../config/config");
+const fs = require('fs');
+const path = require('path');
+
 
 async function insertGallery(data) {
   try {
@@ -104,13 +107,20 @@ async function toggleGalleryStatus(id, status) {
 }
 
 async function deleteGallery(id) {
-  const sql = `
-            UPDATE tbl_product_gallery 
-            SET flag = 0 
-            WHERE id = ?
-        `;
+  const sql = `SELECT image FROM tbl_product_gallery WHERE id = ?`;
   try {
-    const [result] = await pool.promise().execute(sql, [id]);
+    const [rows] = await pool.promise().execute(sql, [id]);
+    
+    if (rows.length > 0 && rows[0].image) {
+      const filePath = path.join(__dirname, '../../public/uploads/gallery', rows[0].image);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    const [result] = await pool.promise().execute(
+      `DELETE FROM tbl_product_gallery WHERE id = ?`, [id]
+    );
     return result;
   } catch (err) {
     console.error("Error in deleteGallery:", err);

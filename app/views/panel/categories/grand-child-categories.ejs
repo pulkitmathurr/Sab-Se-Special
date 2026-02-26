@@ -210,6 +210,12 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Image -->
+                                            <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Category Image</label>
+                                                <input class="input" type="file" name="image" accept="image/*" />
+                                            </div>
+
                                             <!-- Description -->
                                             <div class="col-12 form-group form-group--lg">
                                                 <label class="form-label">Description</label>
@@ -217,11 +223,7 @@
                                                     placeholder="Enter Description" rows="4"></textarea>
                                             </div>
 
-                                            <!-- Image -->
-                                            <div class="col-12 form-group form-group--lg">
-                                                <label class="form-label">Category Image</label>
-                                                <input class="input" type="file" name="image" accept="image/*" />
-                                            </div>
+
 
                                         </div>
                                 </div>
@@ -420,6 +422,41 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="table-wrapper__footer">
+                    <div class="row">
+                        <div class="table-wrapper__show-result col text-grey"><span
+                                class="d-none d-sm-inline-block">Showing</span> 1 to 10
+                            <span class="d-none d-sm-inline-block">of 50 items</span>
+                        </div>
+                        <div class="table-wrapper__pagination col-auto">
+                            <ol class="pagination">
+                                <li class="pagination__item">
+                                    <a class="pagination__arrow pagination__arrow--prev" href="#">
+                                        <svg class="icon-icon-keyboard-left">
+                                            <use xlink:href="#icon-keyboard-left"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="pagination__item active"><a class="pagination__link" href="#">1</a>
+                                </li>
+                                <li class="pagination__item"><a class="pagination__link" href="#">2</a>
+                                </li>
+                                <li class="pagination__item"><a class="pagination__link" href="#">3</a>
+                                </li>
+                                <li class="pagination__item pagination__item--dots">...</li>
+                                <li class="pagination__item"><a class="pagination__link" href="#">10</a>
+                                </li>
+                                <li class="pagination__item">
+                                    <a class="pagination__arrow pagination__arrow--next" href="#">
+                                        <svg class="icon-icon-keyboard-right">
+                                            <use xlink:href="#icon-keyboard-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -501,13 +538,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Description -->
-                                        <div class="col-12 form-group form-group--lg">
-                                            <label class="form-label">Description</label>
-                                            <textarea name="description" id="edit_description" class="input"
-                                                placeholder="Enter Description" rows="4"></textarea>
-                                        </div>
-
                                         <!-- Image -->
                                         <div class="col-12 form-group form-group--lg">
                                             <label class="form-label">Category Image <span
@@ -515,6 +545,14 @@
                                                     to keep current)</span></label>
                                             <input class="input" type="file" name="image" accept="image/*" />
                                         </div>
+                                        <!-- Description -->
+                                        <div class="col-12 form-group form-group--lg">
+                                            <label class="form-label">Description</label>
+                                            <textarea name="description" id="edit_description" class="input"
+                                                placeholder="Enter Description" rows="4"></textarea>
+                                        </div>
+
+
 
                                     </div>
                                 </form>

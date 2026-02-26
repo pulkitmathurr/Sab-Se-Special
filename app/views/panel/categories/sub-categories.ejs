@@ -163,15 +163,16 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 form-group form-group--lg">
+                                                <label class="form-label">Category Images</label>
+                                                <input class="input" type="file" name="image" accept="image/webp" />
+                                            </div>
+                                            <div class="col-12 form-group form-group--lg">
                                                 <label class="form-label">Description</label>
                                                 <textarea name="description" class="input"
                                                     placeholder="Enter Description" rows="4"></textarea>
                                             </div>
 
-                                            <div class="col-12 form-group form-group--lg">
-                                                <label class="form-label">Category Images</label>
-                                                <input class="input" type="file" name="image" accept="image/webp" />
-                                            </div>
+                                            
                                         </div>
                                 </div>
                             </div>
@@ -438,15 +439,18 @@
                                                 value="<%= editCategory ? editCategory.name : '' %>" required>
                                         </div>
                                     </div>
+
+                                     <div class="form-group form-group--lg">
+                                        <label class="form-label">Category Image</label>
+                                        <input class="input" type="file" name="image" accept="image/webp" />
+                                    </div>
+
                                     <div class="form-group form-group--lg">
                                         <label class="form-label">Description</label>
                                         <textarea name="description" class="input"
                                             rows="4"><%= editCategory ? editCategory.description : '' %></textarea>
                                     </div>
-                                    <div class="form-group form-group--lg">
-                                        <label class="form-label">Category Image</label>
-                                        <input class="input" type="file" name="image" accept="image/webp" />
-                                    </div>
+                                    
                                 </form>
                             </div>
                         </div>
