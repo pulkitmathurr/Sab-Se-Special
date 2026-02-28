@@ -16,7 +16,21 @@ async function getSubCategories() {
     throw err;
   }
 }
-
+async function searchSubCategories(name) {
+  const sql = `
+    SELECT * 
+    FROM tbl_sub_category 
+    WHERE flag = 0 AND name LIKE ?
+    ORDER BY id DESC
+  `;
+  try {
+    const [rows] = await pool.promise().execute(sql, [`%${name}%`]);
+    return rows;
+  } catch (err) {
+    console.error("Error in searchSubCategories:", err);
+    throw err;
+  }
+}
 async function insertSubCategory(data) {
   const sql = `
         INSERT INTO tbl_sub_category
@@ -132,5 +146,6 @@ module.exports = {
   deleteSubCategory,
   unpublishSubCategory,
   updateSubCategory,
-  getSubCategoryByToken
+  getSubCategoryByToken,
+  searchSubCategories
 };

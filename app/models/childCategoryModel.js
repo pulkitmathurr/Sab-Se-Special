@@ -17,6 +17,21 @@ async function getChildCategories() {
         throw err;
     }
 }
+async function searchChildCategories(name){
+    const sql = `
+    SELECT * 
+    FROM tbl_child_category 
+    WHERE flag = 0 AND name LIKE ?
+    ORDER BY id DESC
+  `;
+  try {
+    const [rows] = await pool.promise().execute(sql, [`%${name}%`]);
+    return rows;
+  } catch (err) {
+    console.error("Error in searchChildCategories:", err);
+    throw err;
+  }
+}
 
 async function insertChildCategory(data) {
     const sql = `
@@ -130,4 +145,5 @@ module.exports = {
     updateChildCategory,
     deleteChildCategory,
     unpublishChildCategory,
+    searchChildCategories
 };

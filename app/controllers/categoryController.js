@@ -7,32 +7,44 @@ const grandChildCategoryModel = require("../models/Grandchildcategorymodel");
 const categoryController = {
   //main categories
   mainCategories: async (req, res) => {
-    try {
-      const search = req.query.search || "";
+  try {
+    const search = req.query.search || "";
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
 
-      let categories;
-      if (search.trim()) {
-        categories = await categoryModel.searchMainCategories(search.trim());
-      } else {
-        categories = await categoryModel.getMainCategories();
-      }
+    let categories;
+    let totalItems;
 
-      let editCategory = null;
-      if (req.query.edit) {
-        editCategory = await categoryModel.getMainCategoryByToken(
-          req.query.edit,
-        );
-      }
-      res.render("panel/categories/main-categories", {
-        categories,
-        editCategory,
-        search, 
-      });
-    } catch (err) {
-      console.error(err);
-      res.send("Error loading categories");
+    if (search.trim()) {
+      // search mode - pagination nahi, saare results
+      categories = await categoryModel.searchMainCategories(search.trim());
+      totalItems = categories.length;
+    } else {
+      // normal mode - pagination ke saath
+      categories = await categoryModel.getMainCategories(page, limit);
+      totalItems = await categoryModel.countMainCategories();
     }
-  },
+
+    const totalPages = Math.ceil(totalItems / limit);
+
+    let editCategory = null;
+    if (req.query.edit) {
+      editCategory = await categoryModel.getMainCategoryByToken(req.query.edit);
+    }
+
+    res.render("panel/categories/main-categories", {
+      categories,
+      editCategory,
+      search,
+      currentPage: page,
+      totalPages,
+      totalItems,
+    });
+  } catch (err) {
+    console.error(err);
+    res.send("Error loading categories");
+  }
+},
 
   addMainCategory: async (req, res) => {
     try {
@@ -136,8 +148,19 @@ const categoryController = {
 
   subCategories: async (req, res) => {
     try {
+      const search = req.query.search || "";
+
       const categories = await categoryModel.getMainCategories();
-      const subcategories = await subcategoryModel.getSubCategories();
+      // const subcategories = await subcategoryModel.getSubCategories();
+
+      let subcategories;
+      if (search.trim()) {
+        subcategories = await subcategoryModel.searchSubCategories(
+          search.trim(),
+        );
+      } else {
+        subcategories = await subcategoryModel.getSubCategories();
+      }
 
       let editSubCategory = null;
 
@@ -150,7 +173,8 @@ const categoryController = {
       res.render("panel/categories/sub-categories", {
         categories,
         subcategories,
-        editCategory: editSubCategory, 
+        editCategory: editSubCategory,
+        search,
       });
     } catch (err) {
       console.error(err);
@@ -426,9 +450,22 @@ const categoryController = {
 
   childCategories: async (req, res) => {
     try {
+      const search = req.query.search || "";
+
       const categories = await categoryModel.getMainCategories();
       const subcategories = await subcategoryModel.getSubCategories();
-      const childCategories = await childCategoryModel.getChildCategories();
+
+      let childCategories;
+      if (search.trim()) {
+        childCategories = await childCategoryModel.searchChildCategories(
+          search.trim(),
+        );
+      } else {
+        childCategories = await childCategoryModel.getChildCategories();
+      }
+
+     console.log("search:", search);
+console.log("results:", childCategories.length);
 
       let editCategory = null;
       if (req.query.edit) {
@@ -442,6 +479,7 @@ const categoryController = {
         subcategories,
         childCategories,
         editCategory,
+        search,
       });
     } catch (err) {
       console.error(err);
@@ -451,13 +489,18 @@ const categoryController = {
   // Grand Child Categories
   grandChildCategories: async (req, res) => {
     try {
-      const search = req.query.search || '';
+      const search = req.query.search || "";
       const categories = await categoryModel.getMainCategories();
       const subcategories = await subcategoryModel.getSubCategories();
       const childCategories = await childCategoryModel.getChildCategories();
-      const grandChildCategories = await grandChildCategoryModel.getGrandChildCategories(search);
+      const grandChildCategories =
+        await grandChildCategoryModel.getGrandChildCategories(search);
       res.render("panel/categories/grand-child-categories", {
-        categories, subcategories, childCategories, grandChildCategories, search,
+        categories,
+        subcategories,
+        childCategories,
+        grandChildCategories,
+        search,
       });
     } catch (err) {
       console.error(err);
@@ -468,26 +511,45 @@ const categoryController = {
   addGrandChildCategory: async (req, res) => {
     try {
       const name = req.body.name.trim();
-      const description = req.body.description ? req.body.description.trim() : null;
-      const { category_token, sub_category_token, child_category_token } = req.body;
-      if (!name || !category_token || !sub_category_token || !child_category_token) {
+      const description = req.body.description
+        ? req.body.description.trim()
+        : null;
+      const { category_token, sub_category_token, child_category_token } =
+        req.body;
+      if (
+        !name ||
+        !category_token ||
+        !sub_category_token ||
+        !child_category_token
+      ) {
         req.setFlash("error", "All fields are required");
         return res.redirect("/panel/grand-child-categories");
       }
-      const existing = await grandChildCategoryModel.getGrandChildCategoryByName(name);
+      const existing =
+        await grandChildCategoryModel.getGrandChildCategoryByName(name);
       if (existing.length > 0) {
         req.setFlash("error", "Grand child category already exists");
         return res.redirect("/panel/grand-child-categories");
       }
       const admin_token = req.session.user.token;
       const grand_child_category_token = customFunction.generateToken(16);
-      const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+      const slug = name
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w-]+/g, "");
       const image = req.file ? req.file.filename : null;
       await grandChildCategoryModel.insertGrandChildCategory({
-        admin_token, category_token, sub_category_token, child_category_token,
-        grand_child_category_token, name, slug, description, image,
+        admin_token,
+        category_token,
+        sub_category_token,
+        child_category_token,
+        grand_child_category_token,
+        name,
+        slug,
+        description,
+        image,
       });
-      
+
       res.redirect("/panel/grand-child-categories");
     } catch (err) {
       console.error(err);
@@ -498,17 +560,28 @@ const categoryController = {
 
   editGrandChildCategory: async (req, res) => {
     try {
-      const { grand_child_category_token, name, description, category_token, sub_category_token, child_category_token } = req.body;
+      const {
+        grand_child_category_token,
+        name,
+        description,
+        category_token,
+        sub_category_token,
+        child_category_token,
+      } = req.body;
       if (!name || !grand_child_category_token) {
         req.setFlash("error", "Required fields missing");
         return res.redirect("/panel/grand-child-categories");
       }
       await grandChildCategoryModel.updateGrandChildCategory(
-        grand_child_category_token, name.trim(),
+        grand_child_category_token,
+        name.trim(),
         description ? description.trim() : null,
-        category_token, sub_category_token, child_category_token, req.file || null
+        category_token,
+        sub_category_token,
+        child_category_token,
+        req.file || null,
       );
-      
+
       res.redirect("/panel/grand-child-categories");
     } catch (err) {
       console.error(err);
@@ -519,7 +592,9 @@ const categoryController = {
 
   deleteGrandChildCategory: async (req, res) => {
     try {
-      await grandChildCategoryModel.deleteGrandChildCategory(req.body.grand_child_category_token);
+      await grandChildCategoryModel.deleteGrandChildCategory(
+        req.body.grand_child_category_token,
+      );
       req.setFlash("success", "Deleted successfully");
       res.redirect("/panel/grand-child-categories");
     } catch (err) {
@@ -530,16 +605,15 @@ const categoryController = {
 
   unpublishGrandChildCategory: async (req, res) => {
     try {
-      await grandChildCategoryModel.unpublishGrandChildCategory(req.body.grand_child_category_token);
+      await grandChildCategoryModel.unpublishGrandChildCategory(
+        req.body.grand_child_category_token,
+      );
       res.redirect("/panel/grand-child-categories");
     } catch (err) {
       console.error(err);
       res.redirect("/panel/grand-child-categories");
     }
   },
-
-
-
 };
 
 module.exports = categoryController;

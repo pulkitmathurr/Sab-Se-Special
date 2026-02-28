@@ -1,17 +1,29 @@
 const { pool } = require("../config/config");
 
-async function getMainCategories() {
+async function getMainCategories(page = 1, limit = 10) {
+  const offset = (page - 1) * limit;
   const sql = `
-            SELECT * 
-            FROM tbl_main_category 
-            WHERE flag = 0
-            ORDER BY id DESC
-        `;
+    SELECT * FROM tbl_main_category 
+    WHERE flag = 0
+    ORDER BY id DESC
+    LIMIT ? OFFSET ?
+  `;
   try {
-    const [rows] = await pool.promise().execute(sql);
+    const [rows] = await pool.promise().execute(sql, [limit, offset]);
     return rows;
   } catch (err) {
     console.error("Error in getMainCategories:", err);
+    throw err;
+  }
+}
+
+async function countMainCategories() {
+  const sql = `SELECT COUNT(*) as total FROM tbl_main_category WHERE flag = 1`;
+  try {
+    const [rows] = await pool.promise().execute(sql);
+    return rows[0].total;
+  } catch (err) {
+    console.error("Error in countMainCategories:", err);
     throw err;
   }
 }
@@ -40,7 +52,9 @@ async function insertMainCategory(data) {
             VALUES (?, ?, ?, ?, ?, ?, 1, 0)
         `;
 
-    const [result] = await pool.promise().execute(sql, [
+    const [result] = await pool
+      .promise()
+      .execute(sql, [
         data.admin_token,
         data.category_token,
         data.name,
@@ -71,20 +85,19 @@ async function deleteMainCategory(categoryToken) {
   }
 }
 
-
 async function unpublishMainCategory(categoryToken) {
-    const sql = `
+  const sql = `
         UPDATE tbl_main_category 
         SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END 
         WHERE category_token = ?
     `;
-    try {
-        const [result] = await pool.promise().execute(sql, [categoryToken]);
-        return result;
-    } catch (err) {
-        console.error("Error in unpublishMainCategory:", err);
-        throw err;
-    }
+  try {
+    const [result] = await pool.promise().execute(sql, [categoryToken]);
+    return result;
+  } catch (err) {
+    console.error("Error in unpublishMainCategory:", err);
+    throw err;
+  }
 }
 
 async function updateMainCategory(token, name, description, file) {
@@ -135,11 +148,10 @@ async function getMainCategoryByToken(token) {
   try {
     const [rows] = await pool.promise().execute(sql, [token]);
     return rows[0];
-  }
-  catch (err) {
+  } catch (err) {
     console.error("Error in getMainCategoriesByToken:", err);
     throw err;
-  } 
+  }
 }
 
 module.exports = {
@@ -151,4 +163,6 @@ module.exports = {
   deleteMainCategory,
   getCategoryByName,
   searchMainCategories,
+  countMainCategories
+
 };
