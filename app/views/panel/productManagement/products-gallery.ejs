@@ -2,7 +2,6 @@
 
     <main class="page-content">
         <div class="container">
-
             <!-- Combined Header with Add Button -->
             <div class="page-header page-header--with-button">
                 <h1 class="page-header__title">Product Gallery</h1>
@@ -34,7 +33,7 @@
                                 </li>
                                 <li class="breadcrumbs__item disabled">
                                     <a class="breadcrumbs__link" href="#">
-                                        <span>Products</span>
+                                        <span>Product Management</span>
                                         <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
                                             <use xlink:href="#icon-keyboard-right"></use>
                                         </svg>
@@ -48,7 +47,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Messages -->
             <% if (locals.success_msg && success_msg.length> 0) { %>
                 <div class="alert alert-success">
@@ -60,7 +58,6 @@
                             ❌ <%= error_msg %>
                         </div>
                         <% } %>
-
                             <!-- Add Modal -->
                             <div class="modal modal--panel modal--right" id="addGallery">
                                 <div class="modal__overlay" data-dismiss="modal"></div>
@@ -85,7 +82,6 @@
                                                                     </option>
                                                                 </select>
                                                             </div>
-
                                                             <div class="col-12 form-group form-group--lg"
                                                                 id="singleInputWrap" style="display:none;">
                                                                 <label class="form-label">Select Image</label>
@@ -136,7 +132,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- Gallery Grid -->
                             <div class="table-wrapper">
                                 <div class="gallery-grid">

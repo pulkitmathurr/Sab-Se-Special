@@ -89,6 +89,37 @@ exports.autoRefresh = (res, duration) => {
     res.setHeader("Refresh", duration);
 }
 
+exports.generateSlug = (name) => {
+    if (!name) return '';
+    return name.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]+/g, "");
+}
+
+exports.convertCurrency = (amount, fromCurrency, toCurrency) => {
+    const rates = {
+        INR:  1,
+        USD:  0.012,
+        AED:  0.044,   
+        EUR:  0.011,
+        GBP:  0.0094,
+    };
+
+    const symbols = {
+        INR: '₹',
+        USD: '$',
+        AED: 'د.إ',
+        EUR: '€',
+        GBP: '£',
+    };
+
+    const inINR = amount / rates[fromCurrency];
+    const converted = inINR * rates[toCurrency];
+
+    return {
+        amount: converted.toFixed(2),
+        symbol: symbols[toCurrency],
+        display: `${symbols[toCurrency]} ${converted.toFixed(2)}`
+    };
+};
 
 exports.phoneValidation = (mobile) => {
     const regex = /^[0-9]{10}$/;

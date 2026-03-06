@@ -229,8 +229,7 @@
             </div>
 
             <div class="table-wrapper">
-                <div class="table-wrapper__content table-products table-collapse scrollbar-thin scrollbar-visible"
-                    data-simplebar>
+                <div class="table-wrapper__content table-products table-collapse">
                     <table class="table table--lines">
                         <colgroup>
                             <col class="colgroup-1">
@@ -353,13 +352,12 @@
                                                             <!-- Delete -->
                                                             <li class="dropdown-items__item">
                                                                 <form action="/panel/delete-child-category"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure?')"
-                                                                    style="margin: 0;">
+                                                                    method="POST" style="margin: 0;">
                                                                     <input type="hidden" name="child_category_token"
                                                                         value="<%= child.child_category_token %>">
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;"
+                                                                        onclick="confirmDelete(this)">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <svg class="icon-icon-trash">
                                                                                 <use xlink:href="#icon-trash"></use>
@@ -376,8 +374,9 @@
                                                                     method="POST" style="margin: 0;">
                                                                     <input type="hidden" name="child_category_token"
                                                                         value="<%= child.child_category_token %>">
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background: none; padding: 0; width: 100%; text-align: left;">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background: none; padding: 0; width: 100%; text-align: left;"
+                                                                        onclick="confirmToggle(this, '<%= child.status == 1 ? `Unpublish` : `Publish` %>')">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <i class="fa-solid fa-ban"></i>
                                                                         </span>
@@ -547,6 +546,31 @@
     </main>
 
     <script>
+
+
+        function confirmDelete(btn) {
+            const form = btn.closest('form');
+            AppModal.confirm({
+                type: 'danger',
+                title: 'Delete Child Category?',
+                message: 'This cannot be undone.',
+                confirmText: 'Yes, Delete',
+                onConfirm: function () { form.submit(); }
+            });
+        }
+
+        function confirmToggle(btn, action) {
+            const form = btn.closest('form');
+            const isUnpublish = action === 'Unpublish';
+            AppModal.confirm({
+                type: isUnpublish ? 'warning' : 'info',
+                title: isUnpublish ? 'Unpublish?' : 'Publish?',
+                message: isUnpublish ? 'This will be hidden from store.' : 'This will be visible on store.',
+                confirmText: isUnpublish ? 'Yes, Unpublish' : 'Yes, Publish',
+                onConfirm: function () { form.submit(); }
+            });
+        }
+
         document.getElementById('addMainCatSelect').addEventListener('change', function () {
             const selectedToken = this.value;
             const subSelect = document.getElementById('addSubCatSelect');

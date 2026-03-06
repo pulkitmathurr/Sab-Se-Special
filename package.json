@@ -17,7 +17,7 @@
     "express-mysql-session": "^3.0.3",
     "express-session": "^1.19.0",
     "morgan": "^1.10.1",
-    "multer": "^2.0.2",
+    "multer": "^2.1.0",
     "mysql2": "^3.17.1",
     "nodemailer": "^7.0.11"
   }

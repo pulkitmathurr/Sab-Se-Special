@@ -109,13 +109,13 @@
                                             </svg>
                                         </div>
                                         <input class="input" type="text" name="search" placeholder="Search product"
-                                        value="<%= search || '' %>">
+                                            value="<%= search || '' %>">
                                     </div>
                                 </form>
                             </div>
                             <div class="col-auto">
-                                <button class="button-add button-add--blue" data-modal="#addProduct" style="background-color: #EFBF04;"><span
-                                        class="button-add__icon">
+                                <button class="button-add button-add--blue" data-modal="#addProduct"
+                                    style="background-color: #EFBF04;"><span class="button-add__icon">
                                         <svg class="icon-icon-plus">
                                             <use xlink:href="#icon-plus"></use>
                                         </svg></span><span class="button-add__text"></span>
@@ -173,7 +173,7 @@
                                                     placeholder="Enter Description" rows="4"></textarea>
                                             </div>
 
-                                            
+
                                         </div>
                                 </div>
                             </div>
@@ -181,7 +181,8 @@
                                 <div class="modal__container">
                                     <div class="modal__footer-buttons">
                                         <div class="form-group">
-                                            <button type="submit" class="button button--primary button--block" style="background-color: #EFBF04;">
+                                            <button type="submit" class="button button--primary button--block"
+                                                style="background-color: #EFBF04;">
                                                 Create Category
                                             </button>
                                         </div>
@@ -200,8 +201,7 @@
             </div>
 
             <div class="table-wrapper">
-                <div class="table-wrapper__content table-products table-collapse scrollbar-thin scrollbar-visible"
-                    data-simplebar>
+                <div class="table-wrapper__content table-products table-collapse">
                     <table class="table table--lines">
                         <colgroup>
                             <col class="colgroup-1">
@@ -310,12 +310,12 @@
                                                             <!-- Delete -->
                                                             <li class="dropdown-items__item">
                                                                 <form action="/panel/delete-sub-category" method="POST"
-                                                                    onsubmit="return confirm('Are you sure?')"
                                                                     style="margin: 0;">
                                                                     <input type="hidden" name="sub_category_token"
                                                                         value="<%= subCat.sub_category_token %>">
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;"
+                                                                        onclick="confirmSubCatDelete(this)">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <svg class="icon-icon-trash">
                                                                                 <use xlink:href="#icon-trash"></use>
@@ -329,13 +329,12 @@
                                                             <!-- Unpublish -->
                                                             <li class="dropdown-items__item">
                                                                 <form action="/panel/unpublish-sub-category"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure?')"
-                                                                    style="margin: 0;">
+                                                                    method="POST" style="margin: 0;">
                                                                     <input type="hidden" name="sub_category_token"
                                                                         value="<%= subCat.sub_category_token %>">
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background: none; padding: 0; width: 100%; text-align: left;">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;"
+                                                                        onclick="confirmSubCatToggle(this, '<%= subCat.status == 1 ? `Unpublish` : `Publish` %>')">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <i class="fa-solid fa-ban"></i>
                                                                         </span>
@@ -441,7 +440,7 @@
                                         </div>
                                     </div>
 
-                                     <div class="form-group form-group--lg">
+                                    <div class="form-group form-group--lg">
                                         <label class="form-label">Category Image</label>
                                         <input class="input" type="file" name="image" accept="image/webp" />
                                     </div>
@@ -451,7 +450,7 @@
                                         <textarea name="description" class="input"
                                             rows="4"><%= editCategory ? editCategory.description : '' %></textarea>
                                     </div>
-                                    
+
                                 </form>
                             </div>
                         </div>
@@ -460,7 +459,8 @@
                                 <div class="modal__footer-buttons">
                                     <div class="form-group">
                                         <button type="submit" form="editCategoryForm"
-                                            class="button button--primary button--block" style="background-color: #EFBF04;">
+                                            class="button button--primary button--block"
+                                            style="background-color: #EFBF04;">
                                             Update Category
                                         </button>
                                     </div>
@@ -476,8 +476,35 @@
                 </div>
             </div>
         </div>
-
-
-
     </main>
+    <script>
+        function confirmSubCatDelete(btn) {
+            const form = btn.closest('form');
+            AppModal.confirm({
+                type: 'danger',
+                title: 'Delete Sub Category?',
+                message: 'This action is permanent and cannot be undone. The sub category and all its data will be removed.',
+                confirmText: 'Yes, Delete',
+                onConfirm: function () {
+                    form.submit();
+                }
+            });
+        }
+
+        function confirmSubCatToggle(btn, action) {
+            const form = btn.closest('form');
+            const isUnpublish = action === 'Unpublish';
+            AppModal.confirm({
+                type: isUnpublish ? 'warning' : 'info',
+                title: isUnpublish ? 'Unpublish Sub Category?' : 'Publish Sub Category?',
+                message: isUnpublish
+                    ? 'This sub category will be hidden from the store. You can re-publish it anytime.'
+                    : 'This sub category will be visible to all customers on the store.',
+                confirmText: isUnpublish ? 'Yes, Unpublish' : 'Yes, Publish',
+                onConfirm: function () {
+                    form.submit();
+                }
+            });
+        }
+    </script>
     <%- include('../../layout/footer.ejs') %>

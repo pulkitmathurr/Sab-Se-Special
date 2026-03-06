@@ -3,7 +3,7 @@
         <div class="container">
 
             <div class="page-header page-header--with-button">
-                <h1 class="page-header__title">Add Product</h1>
+                <h1 class="page-header__title">Edit Product</h1>
             </div>
 
             <div class="page-tools">
@@ -30,7 +30,7 @@
                                     </a>
                                 </li>
                                 <li class="breadcrumbs__item active">
-                                    <span class="breadcrumbs__link">Add Product</span>
+                                    <span class="breadcrumbs__link">Edit Product</span>
                                 </li>
                             </ol>
                         </div>
@@ -47,8 +47,8 @@
                         </div>
                         <% } %>
 
-                            <form action="/panel/add-product" method="POST" enctype="multipart/form-data"
-                                id="addProductForm">
+                            <form action="/panel/edit-product/<%= product.product_token %>" method="POST"
+                                enctype="multipart/form-data" id="editProductForm">
                                 <div class="row row--md">
 
                                     <!-- LEFT COLUMN -->
@@ -64,11 +64,13 @@
                                                     <label class="form-label" for="name">Product Name <span
                                                             class="req">*</span></label>
                                                     <input class="input" type="text" id="name" name="product_name"
-                                                        placeholder="Enter product name" required />
+                                                        value="<%= product.name %>" placeholder="Enter product name"
+                                                        required />
                                                 </div>
                                                 <div class="form-group form-group--lg">
                                                     <label class="form-label" for="slug">Slug</label>
                                                     <input class="input" type="text" id="slug" name="slug"
+                                                        value="<%= product.slug || '' %>"
                                                         placeholder="auto-generated-from-name" />
                                                     <small class="form-hint">Leave blank to auto-generate from
                                                         name.</small>
@@ -77,19 +79,19 @@
                                                     <label class="form-label" for="description">Description</label>
                                                     <textarea class="input input--textarea" id="description"
                                                         name="description" rows="5"
-                                                        placeholder="Full product description..."></textarea>
+                                                        placeholder="Full product description..."><%= product.description || '' %></textarea>
                                                 </div>
                                                 <div class="form-group form-group--lg">
                                                     <label class="form-label" for="instructions">Instructions</label>
                                                     <textarea class="input input--textarea" id="instructions"
                                                         name="instructions" rows="4"
-                                                        placeholder="Usage instructions..."></textarea>
+                                                        placeholder="Usage instructions..."><%= product.instructions || '' %></textarea>
                                                 </div>
                                                 <div class="form-group form-group--lg">
                                                     <label class="form-label" for="delivery_info">Delivery Info</label>
                                                     <textarea class="input input--textarea" id="delivery_info"
                                                         name="delivery_info" rows="3"
-                                                        placeholder="Delivery details, timelines, etc..."></textarea>
+                                                        placeholder="Delivery details, timelines, etc..."><%= product.delivery_info || '' %></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,7 +109,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
 
                                         <!-- Variations -->
                                         <div class="ap-card mb-4">
@@ -133,16 +134,36 @@
                                                 <h3 class="ap-card__title">Product Images</h3>
                                             </div>
                                             <div class="ap-card__body">
-                                                <div class="form-group form-group--lg">
-                                                    <label class="form-label">Upload Images</label>
-                                                    <input class="input" type="file" id="productImages"
-                                                        name="product_images"
-                                                        accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
-                                                        multiple />
-                                                    <small class="form-hint">First image will be used as the primary
-                                                        thumbnail.</small>
-                                                </div>
-                                                <div class="img-preview-grid" id="imagePreviewGrid"></div>
+                                                <% if (product.imagesObj && product.imagesObj.gallery &&
+                                                    product.imagesObj.gallery.length> 0) { %>
+                                                    <div style="margin-bottom:12px;">
+                                                        <label class="form-label">Current Images</label>
+                                                        <div class="img-preview-grid">
+                                                            <% product.imagesObj.gallery.forEach(function(img, i) { %>
+                                                                <div class="img-preview-grid__item">
+                                                                    <img src="/uploads/products/<%= img %>"
+                                                                        alt="Product Image" />
+                                                                    <% if (i===0) { %>
+                                                                        <div class="img-label">Primary</div>
+                                                                        <% } %>
+                                                                </div>
+                                                                <% }) %>
+                                                        </div>
+                                                        <small class="form-hint">Upload new images below to replace
+                                                            these.</small>
+                                                    </div>
+                                                    <% } %>
+                                                        <div class="form-group form-group--lg">
+                                                            <label class="form-label">Upload New Images
+                                                                (optional)</label>
+                                                            <input class="input" type="file" id="productImages"
+                                                                name="product_images"
+                                                                accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+                                                                multiple />
+                                                            <small class="form-hint">First image will be used as the
+                                                                primary thumbnail.</small>
+                                                        </div>
+                                                        <div class="img-preview-grid" id="imagePreviewGrid"></div>
                                             </div>
                                         </div>
 
@@ -156,7 +177,7 @@
                                                     <label class="form-label" for="pincodes">Pincodes</label>
                                                     <textarea class="input input--textarea" id="pincodes"
                                                         name="pincodes" rows="3"
-                                                        placeholder="Enter Pincodes"></textarea>
+                                                        placeholder="Enter Pincodes"><%= product.pincodesArr && product.pincodesArr.length > 0 ? product.pincodesArr.join(', ') : '' %></textarea>
                                                     <small class="form-hint">Comma-separated. Each pincode must be
                                                         exactly 6 digits. Leave blank for all-India delivery.</small>
                                                     <small id="pincode-error"
@@ -170,8 +191,6 @@
                                     <!-- RIGHT COLUMN -->
                                     <div class="col-12 col-lg-4">
 
-
-
                                         <!-- Categories -->
                                         <div class="ap-card mb-4">
                                             <div class="ap-card__head">
@@ -184,7 +203,9 @@
                                                         <option value="">Select Category</option>
                                                         <% if (locals.mainCategories) { %>
                                                             <% mainCategories.forEach(function(cat) { %>
-                                                                <option value="<%= cat.category_token %>">
+                                                                <option value="<%= cat.category_token %>"
+                                                                    <%=cat.category_token===product.category_token
+                                                                    ? 'selected' : '' %>>
                                                                     <%= cat.name %>
                                                                 </option>
                                                                 <% }) %>
@@ -215,15 +236,19 @@
                                                         <option value="">Select Grand Child Category</option>
                                                     </select>
                                                 </div>
+                                                <div class="form-group form-group--lg">
+                                                    <label class="form-label">Product Type</label>
+                                                    <select class="input" name="product_type">
+                                                        <option value="" disabled <%=!product.product_type ? 'selected'
+                                                            : '' %>>Select Product Type</option>
+                                                        <option value="product_list"
+                                                            <%=product.product_type=='product_list' ? 'selected' : '' %>
+                                                            >Product List</option>
+                                                        <option value="enquiry" <%=product.product_type=='enquiry'
+                                                            ? 'selected' : '' %>>Enquiry</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Product Type</label>
-                                            <select name="product_type" class="input">
-                                                <option value="" disabled selected>Select Product Type</option>
-                                                <option value="product_list">Product List</option>
-                                                <option value="enquiry">Enquiry</option>
-                                            </select>
                                         </div>
 
                                         <!-- Actions -->
@@ -232,16 +257,18 @@
                                                 <div class="form-group">
                                                     <button type="submit"
                                                         class="button button--primary button--block button--yellow">
-                                                        <i class="fa-solid fa-plus"></i> &nbsp;Add Product
+                                                        <i class="fa-solid fa-save"></i> &nbsp;Update Product
                                                     </button>
                                                 </div>
                                                 <div class="form-group" style="margin-top:10px;">
-                                                    <a href="/panel/products"
-                                                        class="button button--secondary button--block">Cancel
-                                                    </a>
+                                                    <a href="/panel/products-list"
+                                                        class="button button--secondary button--block">Cancel</a>
                                                 </div>
+                                                <hr style="margin: 14px 0; border-color:#eee;">
+                                                
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </form>
@@ -249,86 +276,99 @@
     </main>
 
     <script>
+        const existingPrices = JSON.parse('<%- JSON.stringify(product.priceObj || {}) %>');
+        const existingVariations = JSON.parse('<%- JSON.stringify(product.variationsArr || []) %>');
+        const existingSubCategoryToken = '<%= product.sub_category_token || "" %>';
+        const existingChildCategoryToken = '<%= product.child_category_token || "" %>';
+        const existingGrandChildCategoryToken = '<%= product.grand_child_category_token || "" %>';
+
         const nameEl = document.getElementById('name');
         const slugEl = document.getElementById('slug');
+        slugEl._locked = slugEl.value.length > 0;
         nameEl.addEventListener('input', function () {
             if (!slugEl._locked) {
                 slugEl.value = this.value.toLowerCase().trim()
                     .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
             }
         });
-        slugEl.addEventListener('input', function () {
-            this._locked = this.value.length > 0;
-        }
-        );
+        slugEl.addEventListener('input', function () { this._locked = this.value.length > 0; });
 
-        // ── PRICE BLOCKS ──
         const priceSymMap = { INR: '₹', USD: '$', AED: 'د.إ', EUR: '€', GBP: '£' };
         let pIdx = 0;
         const usedCurrencies = new Set();
 
-        function addPriceBlock() {
+        function addPriceBlock(currency, originalVal, sellingVal) {
             const c = document.getElementById('pricesContainer');
             const nm = document.getElementById('noPricesMsg');
             if (nm) nm.style.display = 'none';
-
             const allCurrencies = ['INR', 'USD', 'AED', 'EUR', 'GBP'];
-            const available = allCurrencies.filter(c => !usedCurrencies.has(c));
-            if (available.length === 0) {
-                alert('All currencies already added!');
-                return;
+            if (!currency) {
+                const available = allCurrencies.filter(c => !usedCurrencies.has(c));
+                if (available.length === 0) {
+                    alert('All currencies already added!');
+                    return;
+                }
+                currency = available[0];
             }
-
-            const i = pIdx++;
-            const defaultCurrency = available[0];
-            usedCurrencies.add(defaultCurrency);
-
+            usedCurrencies.add(currency);
             const block = document.createElement('div');
             block.className = 'price-block';
-            block.dataset.currency = defaultCurrency;
+            block.dataset.currency = currency;
             block.style.cssText = 'border:1px solid #e0e0e0; border-radius:8px; padding:16px; margin-bottom:12px; position:relative;';
             block.innerHTML = `
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:end;">
-            <div class="form-group">
-                <label class="form-label">Currency</label>
-                <select class="input price-currency-select" onchange="onCurrencyChange(this)">
-                    ${allCurrencies.map(cur => `
-                        <option value="${cur}" ${cur === defaultCurrency ? 'selected' : ''} 
-                            ${usedCurrencies.has(cur) && cur !== defaultCurrency ? 'disabled' : ''}>
-                            ${priceSymMap[cur]} ${cur}
-                        </option>
-                    `).join('')}
-                </select>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:end;">
+                <div class="form-group">
+                    <label class="form-label">Currency</label>
+                    <select class="input price-currency-select" onchange="onCurrencyChange(this)">
+                        ${allCurrencies.map(cur => `<option value="${cur}" ${cur === currency ? 'selected' : ''} ${usedCurrencies.has(cur) && cur !== currency ? 'disabled' : ''}>${priceSymMap[cur]} ${cur}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Original Price (<span class="blk-sym">${priceSymMap[currency]}</span>)</label>
+                    <input class="input price-original" type="number" placeholder="0.00" min="0" step="0.01" value="${originalVal || ''}" oninput="calcBlockDiscount(this)" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Selling Price (<span class="blk-sym">${priceSymMap[currency]}</span>)</label>
+                    <input class="input price-selling" type="number" placeholder="0.00" min="0" step="0.01" value="${sellingVal || ''}" oninput="calcBlockDiscount(this)" />
+                </div>
             </div>
-            <div class="form-group">
-                <label class="form-label">Original Price (<span class="blk-sym">${priceSymMap[defaultCurrency]}</span>)</label>
-                <input class="input price-original" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcBlockDiscount(this)" />
-            </div>
-            <div class="form-group">
-                <label class="form-label">Selling Price (<span class="blk-sym">${priceSymMap[defaultCurrency]}</span>)</label>
-                <input class="input price-selling" type="number" placeholder="0.00" min="0" step="0.01" oninput="calcBlockDiscount(this)" />
-            </div>
-        </div>
-        <div class="price-discount-badge" style="display:none; margin-top:8px; font-size:13px; color:#e67e22; font-weight:600;"></div>
-        <button type="button" onclick="removePriceBlock(this)"
-            style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; color:#e74c3c; font-size:16px;">
-            <i class="fa-solid fa-trash"></i>
-        </button>`;
+            <div class="price-discount-badge" style="display:none; margin-top:8px; font-size:13px; color:#e67e22; font-weight:600;"></div>
+            <button type="button" onclick="removePriceBlock(this)" style="position:absolute; top:10px; right:10px; background:none; border:none; cursor:pointer; color:#e74c3c; font-size:16px;"><i class="fa-solid fa-trash"></i></button>`;
             c.appendChild(block);
         }
+
+        document.getElementById('deleteBtn').addEventListener('click', function () {
+            AppModal.confirm({
+                type: 'danger',
+                title: 'Delete Product?',
+                message: 'This action is permanent and cannot be undone. The product and all its data will be removed.',
+                confirmText: 'Yes, Delete',
+                onConfirm: function () {
+                    window.location.href = '/panel/delete-product/<%= product.product_token %>';
+                }
+            });
+        });
+
+        document.getElementById('unpublishBtn').addEventListener('click', function () {
+            AppModal.confirm({
+                type: 'warning',
+                title: 'Unpublish Product?',
+                message: 'This product will be hidden from the store. You can re-publish it anytime.',
+                confirmText: 'Yes, Unpublish',
+                onConfirm: function () {
+                    window.location.href = '/panel/unpublish-product/<%= product.product_token %>';
+                }
+            });
+        });
 
         function onCurrencyChange(select) {
             const block = select.closest('.price-block');
             const oldCurrency = block.dataset.currency;
             const newCurrency = select.value;
-
             usedCurrencies.delete(oldCurrency);
             usedCurrencies.add(newCurrency);
             block.dataset.currency = newCurrency;
-
-            const sym = priceSymMap[newCurrency];
-            block.querySelectorAll('.blk-sym').forEach(el => el.textContent = sym);
-
+            block.querySelectorAll('.blk-sym').forEach(el => el.textContent = priceSymMap[newCurrency]);
             refreshAllDropdowns();
         }
 
@@ -362,16 +402,19 @@
             const badge = block.querySelector('.price-discount-badge');
             if (o > 0 && s > 0 && s < o) {
                 const pct = Math.round(((o - s) / o) * 100);
-                const sym = block.querySelector('.blk-sym').textContent;
-                badge.textContent = `🏷️ ${pct}% off — Customer saves ${sym}${(o - s).toFixed(2)}`;
+                badge.textContent = `🏷️ ${pct}% off — Customer saves ${block.querySelector('.blk-sym').textContent}${(o - s).toFixed(2)}`;
                 badge.style.display = 'block';
-            } else {
-                badge.style.display = 'none';
-            }
+            } else { badge.style.display = 'none'; }
         }
 
-        document.getElementById('addPriceBtn').addEventListener('click', addPriceBlock);
-        addPriceBlock();
+        document.getElementById('addPriceBtn').addEventListener('click', function () { addPriceBlock(); });
+
+        const existingPriceKeys = Object.keys(existingPrices);
+        if (existingPriceKeys.length > 0) {
+            existingPriceKeys.forEach(function (currency) {
+                addPriceBlock(currency, existingPrices[currency].original_price, existingPrices[currency].selling_price);
+            });
+        } else { addPriceBlock(); }
 
         document.getElementById('productImages').addEventListener('change', function () {
             const grid = document.getElementById('imagePreviewGrid');
@@ -382,19 +425,13 @@
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(f);
                 wrap.appendChild(img);
-                if (i === 0) {
-                    const lbl = document.createElement('div');
-                    lbl.className = 'img-label';
-                    lbl.textContent = 'Primary';
-                    wrap.appendChild(lbl);
-                }
+                if (i === 0) { const lbl = document.createElement('div'); lbl.className = 'img-label'; lbl.textContent = 'Primary'; wrap.appendChild(lbl); }
                 grid.appendChild(wrap);
             });
         });
 
-        // Variations
         let vIdx = 0;
-        document.getElementById('addVariationBtn').addEventListener('click', function () {
+        function addVariationRow(label, value, stock) {
             const c = document.getElementById('variationsContainer');
             const nm = document.getElementById('noVariationsMsg');
             if (nm) nm.style.display = 'none';
@@ -402,93 +439,116 @@
             const row = document.createElement('div');
             row.className = 'variation-row';
             row.innerHTML = `
-        <input class="input" type="text" name="var_label_${i}" placeholder="e.g. Size" />
-        <input class="input" type="text" name="var_value_${i}" placeholder="e.g. Large" />
-        <input class="input" type="number" name="var_stock_${i}" placeholder="0" min="0" />
-        <button type="button" class="variation-row__remove" onclick="this.closest('.variation-row').remove(); checkVarEmpty();">
-            <i class="fa-solid fa-trash"></i>
-        </button>`;
+            <input class="input" type="text" name="var_label_${i}" placeholder="e.g. Size" value="${label || ''}" />
+            <input class="input" type="text" name="var_value_${i}" placeholder="e.g. Large" value="${value || ''}" />
+            <input class="input" type="number" name="var_stock_${i}" placeholder="0" min="0" value="${stock || ''}" />
+            <button type="button" class="variation-row__remove" onclick="this.closest('.variation-row').remove(); checkVarEmpty();"><i class="fa-solid fa-trash"></i></button>`;
             c.appendChild(row);
-        });
+        }
+
+        document.getElementById('addVariationBtn').addEventListener('click', function () { addVariationRow(); });
 
         function checkVarEmpty() {
             const c = document.getElementById('variationsContainer');
             const nm = document.getElementById('noVariationsMsg');
             if (nm && !c.querySelector('.variation-row')) nm.style.display = '';
         }
-        // Cascading dropdowns
-        async function fetchOptions(url, tokenField) {
-            try {
-                const r = await fetch(url);
-                const data = await r.json();
-                return Array.isArray(data) ? data : [];
-            } catch (e) { return []; }
+
+        if (existingVariations.length > 0) {
+            existingVariations.forEach(function (v) { addVariationRow(v.label, v.value, v.stock); });
         }
 
-        document.getElementById('category_token').addEventListener('change', async function () {
+        async function fetchOptions(url) {
+            try { const r = await fetch(url); const data = await r.json(); return Array.isArray(data) ? data : []; }
+            catch (e) { return []; }
+        }
+
+        async function loadSubCategories(categoryToken, selectedToken) {
             const subEl = document.getElementById('sub_category_token');
-            const childEl = document.getElementById('child_category_token');
-            const grandEl = document.getElementById('grand_child_category_token');
             subEl.innerHTML = '<option value="">— Select Sub Category —</option>';
-            childEl.innerHTML = '<option value="">— Select Child Category —</option>';
-            grandEl.innerHTML = '<option value="">— Select Grand Child Category —</option>';
-            if (!this.value) return;
-            const data = await fetchOptions(`/api/sub-categories/${this.value}`);
+            if (!categoryToken) return;
+            const data = await fetchOptions(`/api/sub-categories/${categoryToken}`);
             data.forEach(function (d) {
                 const o = document.createElement('option');
                 o.value = d.sub_category_token; o.textContent = d.name;
+                if (d.sub_category_token === selectedToken) o.selected = true;
                 subEl.appendChild(o);
             });
-        });
+        }
 
-        document.getElementById('sub_category_token').addEventListener('change', async function () {
+        async function loadChildCategories(subToken, selectedToken) {
             const childEl = document.getElementById('child_category_token');
-            const grandEl = document.getElementById('grand_child_category_token');
             childEl.innerHTML = '<option value="">— Select Child Category —</option>';
-            grandEl.innerHTML = '<option value="">— Select Grand Child Category —</option>';
-            if (!this.value) return;
-            const data = await fetchOptions(`/api/child-categories/${this.value}`);
+            if (!subToken) return;
+            const data = await fetchOptions(`/api/child-categories/${subToken}`);
             data.forEach(function (d) {
                 const o = document.createElement('option');
                 o.value = d.child_category_token; o.textContent = d.name;
+                if (d.child_category_token === selectedToken) o.selected = true;
                 childEl.appendChild(o);
             });
-        });
+        }
 
-        document.getElementById('child_category_token').addEventListener('change', async function () {
+        async function loadGrandChildCategories(childToken, selectedToken) {
             const grandEl = document.getElementById('grand_child_category_token');
             grandEl.innerHTML = '<option value="">— Select Grand Child Category —</option>';
-            if (!this.value) return;
-            const data = await fetchOptions(`/api/grand-child-categories/${this.value}`);
+            if (!childToken) return;
+            const data = await fetchOptions(`/api/grand-child-categories/${childToken}`);
             data.forEach(function (d) {
                 const o = document.createElement('option');
                 o.value = d.grand_child_category_token; o.textContent = d.name;
+                if (d.grand_child_category_token === selectedToken) o.selected = true;
                 grandEl.appendChild(o);
             });
+        }
+
+        (async function () {
+            const catToken = document.getElementById('category_token').value;
+            if (catToken) {
+                await loadSubCategories(catToken, existingSubCategoryToken);
+                if (existingSubCategoryToken) {
+                    await loadChildCategories(existingSubCategoryToken, existingChildCategoryToken);
+                    if (existingChildCategoryToken) {
+                        await loadGrandChildCategories(existingChildCategoryToken, existingGrandChildCategoryToken);
+                    }
+                }
+            }
+        })();
+
+        document.getElementById('category_token').addEventListener('change', async function () {
+            document.getElementById('sub_category_token').innerHTML = '<option value="">— Select Sub Category —</option>';
+            document.getElementById('child_category_token').innerHTML = '<option value="">— Select Child Category —</option>';
+            document.getElementById('grand_child_category_token').innerHTML = '<option value="">— Select Grand Child Category —</option>';
+            if (!this.value) return;
+            await loadSubCategories(this.value, '');
         });
 
-        // Pincode validation - each pincode must be exactly 6 digits
+        document.getElementById('sub_category_token').addEventListener('change', async function () {
+            document.getElementById('child_category_token').innerHTML = '<option value="">— Select Child Category —</option>';
+            document.getElementById('grand_child_category_token').innerHTML = '<option value="">— Select Grand Child Category —</option>';
+            if (!this.value) return;
+            await loadChildCategories(this.value, '');
+        });
+
+        document.getElementById('child_category_token').addEventListener('change', async function () {
+            document.getElementById('grand_child_category_token').innerHTML = '<option value="">— Select Grand Child Category —</option>';
+            if (!this.value) return;
+            await loadGrandChildCategories(this.value, '');
+        });
+
         document.getElementById('pincodes').addEventListener('input', function () {
             const raw = this.value;
-            if (!raw.trim()) {
-                this.setCustomValidity('');
-                document.getElementById('pincode-error').textContent = '';
-                return;
-            }
+            if (!raw.trim()) { this.setCustomValidity(''); document.getElementById('pincode-error').textContent = ''; return; }
             const pins = raw.split(',').map(p => p.trim()).filter(Boolean);
             const invalid = pins.filter(p => !/^\d{6}$/.test(p));
             if (invalid.length > 0) {
                 const msg = `Invalid pincode(s): ${invalid.join(', ')} — each must be exactly 6 digits.`;
                 this.setCustomValidity(msg);
                 document.getElementById('pincode-error').textContent = msg;
-            } else {
-                this.setCustomValidity('');
-                document.getElementById('pincode-error').textContent = '';
-            }
+            } else { this.setCustomValidity(''); document.getElementById('pincode-error').textContent = ''; }
         });
-        // Serialize variations to JSON on submit
-        document.getElementById('addProductForm').addEventListener('submit', function (e) {
-            // Pincode validation
+
+        document.getElementById('editProductForm').addEventListener('submit', function (e) {
             const pincodeField = document.getElementById('pincodes');
             const raw = pincodeField.value;
             if (raw.trim()) {
@@ -496,68 +556,36 @@
                 const invalid = pins.filter(p => !/^\d{6}$/.test(p));
                 if (invalid.length > 0) {
                     e.preventDefault();
-                    const msg = `Invalid pincode(s): ${invalid.join(', ')} — each must be exactly 6 digits.`;
-                    document.getElementById('pincode-error').textContent = msg;
-                    pincodeField.focus();
-                    return;
+                    document.getElementById('pincode-error').textContent = `Invalid pincode(s): ${invalid.join(', ')} — each must be exactly 6 digits.`;
+                    pincodeField.focus(); return;
                 }
             }
-
-            // Prices validate + serialize
             const priceBlocks = document.querySelectorAll('.price-block');
-            if (priceBlocks.length === 0) {
-                e.preventDefault();
-                alert('Please add at least one price.');
-                return;
-            }
+            if (priceBlocks.length === 0) { e.preventDefault(); alert('Please add at least one price.'); return; }
             const pricesObj = {};
             priceBlocks.forEach(function (block) {
-                const currency = block.dataset.currency;
-                const original = parseFloat(block.querySelector('.price-original').value) || 0;
-                const selling = parseFloat(block.querySelector('.price-selling').value) || 0;
-                pricesObj[currency] = {
-                    original_price: original,
-                    selling_price: selling
+                pricesObj[block.dataset.currency] = {
+                    original_price: parseFloat(block.querySelector('.price-original').value) || 0,
+                    selling_price: parseFloat(block.querySelector('.price-selling').value) || 0
                 };
             });
             let ph = document.getElementById('_priceJson');
-            if (!ph) {
-                ph = document.createElement('input');
-                ph.type = 'hidden';
-                ph.id = '_priceJson';
-                ph.name = 'prices';
-                this.appendChild(ph);
-            }
+            if (!ph) { ph = document.createElement('input'); ph.type = 'hidden'; ph.id = '_priceJson'; ph.name = 'prices'; this.appendChild(ph); }
             ph.value = JSON.stringify(pricesObj);
 
-            // Variations serialize
-            const rows = document.querySelectorAll('.variation-row');
-            const vars = Array.from(rows).map(function (row) {
+            const vars = Array.from(document.querySelectorAll('.variation-row')).map(function (row) {
                 const inp = row.querySelectorAll('input');
                 return { label: inp[0].value, value: inp[1].value, stock: inp[2].value };
             });
             let h = document.getElementById('_varJson');
-            if (!h) {
-                h = document.createElement('input');
-                h.type = 'hidden';
-                h.id = '_varJson';
-                h.name = 'variations';
-                this.appendChild(h);
-            }
+            if (!h) { h = document.createElement('input'); h.type = 'hidden'; h.id = '_varJson'; h.name = 'variations'; this.appendChild(h); }
             h.value = JSON.stringify(vars);
         });
 
         const apSymbols = { INR: '₹', USD: '$', AED: 'د.إ', EUR: '€', GBP: '£' };
-
-        function getCurrencySymbol() {
-            return apSymbols[localStorage.getItem('currency') || 'INR'];
-        }
-
         function updateCurrencySymbols() {
-            const sym = getCurrencySymbol();
-            document.querySelectorAll('.currency-symbol').forEach(function (el) {
-                el.textContent = sym;
-            });
+            const sym = apSymbols[localStorage.getItem('currency') || 'INR'];
+            document.querySelectorAll('.currency-symbol').forEach(function (el) { el.textContent = sym; });
         }
         updateCurrencySymbols();
         window.addEventListener('currencyChange', updateCurrencySymbols);

@@ -198,8 +198,7 @@
             </div>
 
             <div class="table-wrapper">
-                <div class="table-wrapper__content table-products table-collapse simplebar-content-wrapper"
-                    data-simplebar>
+                <div class="table-wrapper__content table-products table-collapse"></div>
                     <table class="table table--lines">
                         <colgroup>
                             <col class="colgroup-1">
@@ -273,7 +272,7 @@
                                                     <i class="fa-solid fa-ellipsis"></i>
                                                 </button>
 
-                                                <div class="dropdown-items dropdown-items--left dropdown-items--down">
+                                                <div class="dropdown-items dropdown-items--right dropdown-items--down">
                                                     <div class="dropdown-items__container">
                                                         <ul class="dropdown-items__list">
 
@@ -296,14 +295,12 @@
                                                             <!-- Soft Delete -->
                                                             <li class="dropdown-items__item">
                                                                 <form action="/panel/delete-main-category" method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to delete this category?')"
                                                                     style="margin: 0;">
-
                                                                     <input type="hidden" name="category_token"
                                                                         value="<%= cat.category_token %>">
-
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;"
+                                                                        onclick="confirmCatDelete(this)">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <svg class="icon-icon-trash">
                                                                                 <use xlink:href="#icon-trash"></use>
@@ -317,14 +314,12 @@
                                                             <!-- unPublish -->
                                                             <li class="dropdown-items__item">
                                                                 <form action="/panel/unpublish-main-category"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure you want to unpublish this category?')"
-                                                                    style="margin: 0;">
+                                                                    method="POST" style="margin: 0;">
                                                                     <input type="hidden" name="category_token"
-                                                                        value="<%=cat.category_token %>">
-
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background: none; padding:0;width: 100%; text-align: left;">
+                                                                        value="<%= cat.category_token %>">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background: none; border: none; padding: 0; width: 100%; text-align: left;"
+                                                                        onclick="confirmCatToggle(this, '<%= cat.status == 1 ? `Unpublish` : `Publish` %>')">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <i class="fa-solid fa-ban"></i>
                                                                         </span>
@@ -448,4 +443,34 @@
             </div>
         </div>
     </main>
+    <script>
+        function confirmCatDelete(btn) {
+            const form = btn.closest('form');
+            AppModal.confirm({
+                type: 'danger',
+                title: 'Delete Category?',
+                message: 'This action is permanent and cannot be undone. The category and all its data will be removed.',
+                confirmText: 'Yes, Delete',
+                onConfirm: function () {
+                    form.submit();
+                }
+            });
+        }
+
+        function confirmCatToggle(btn, action) {
+            const form = btn.closest('form');
+            const isUnpublish = action === 'Unpublish';
+            AppModal.confirm({
+                type: isUnpublish ? 'warning' : 'info',
+                title: isUnpublish ? 'Unpublish Category?' : 'Publish Category?',
+                message: isUnpublish
+                    ? 'This category will be hidden from the store. You can re-publish it anytime.'
+                    : 'This category will be visible to all customers on the store.',
+                confirmText: isUnpublish ? 'Yes, Unpublish' : 'Yes, Publish',
+                onConfirm: function () {
+                    form.submit();
+                }
+            });
+        }
+    </script>
     <%- include('../../layout/footer.ejs') %>

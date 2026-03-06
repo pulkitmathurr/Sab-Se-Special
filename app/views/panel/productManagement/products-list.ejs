@@ -20,7 +20,7 @@
                                     </a>
                                 </li>
                                 <li class="breadcrumbs__item disabled"><a class="breadcrumbs__link"
-                                        href="#"><span>E-commerce</span>
+                                        href="#"><span>Product Management</span>
                                         <svg class="icon-icon-keyboard-right breadcrumbs__arrow">
                                             <use xlink:href="#icon-keyboard-right"></use>
                                         </svg></a>
@@ -28,22 +28,6 @@
                                 <li class="breadcrumbs__item active"><span class="breadcrumbs__link">Products</span>
                                 </li>
                             </ol>
-                        </div>
-                    </div>
-                </div>
-                <div class="page-tools__right">
-                    <div class="page-tools__right-row">
-                        <div class="page-tools__right-item"><a class="button-icon" href="#"><span
-                                    class="button-icon__icon">
-                                    <svg class="icon-icon-print">
-                                        <use xlink:href="#icon-print"></use>
-                                    </svg></span></a>
-                        </div>
-                        <div class="page-tools__right-item"><a class="button-icon" href="#"><span
-                                    class="button-icon__icon">
-                                    <svg class="icon-icon-import">
-                                        <use xlink:href="#icon-import"></use>
-                                    </svg></span></a>
                         </div>
                     </div>
                 </div>
@@ -123,25 +107,25 @@
                                                 <use xlink:href="#icon-search"></use>
                                             </svg>
                                         </div>
-                                        <input class="input" type="text" placeholder="Search product">
+                                        <input class="input" type="text" name="search" placeholder="Search product"
+                                            value="<%= search %>">
                                     </div>
                                 </form>
                             </div>
                             <div class="col-auto">
-                                <button class="button-add button-add--blue" data-modal="#addProduct"><span
+                                <a class="button-add button-add--blue" href="/panel/add-product"><span
                                         class="button-add__icon">
                                         <svg class="icon-icon-plus">
                                             <use xlink:href="#icon-plus"></use>
                                         </svg></span><span class="button-add__text"></span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="table-wrapper">
-                <div class="table-wrapper__content table-products table-collapse scrollbar-thin scrollbar-visible"
-                    data-simplebar>
+                <div class="table-wrapper__content table-products table-collapse">
                     <table class="table table--lines">
                         <colgroup>
                             <col class="colgroup-1">
@@ -152,22 +136,11 @@
                             <col>
                             <col>
                             <col>
+                            <col>
                         </colgroup>
                         <thead class="table__header">
                             <tr class="table__header-row">
-                                <th>
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input class="js-checkbox-all" type="checkbox"
-                                                data-checkbox-all="product"><span class="checkbox__marker"><span
-                                                    class="checkbox__marker-icon"><svg viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </th>
-                                <th class="d-none d-lg-table-cell"><span>ID</span>
+                                <th class="d-none d-lg-table-cell"><span>Sr No.</span>
                                 </th>
                                 <th class="table__th-sort"><span class="align-middle">Product Name</span><span
                                         class="sort sort--down"></span>
@@ -184,749 +157,224 @@
                                 <th class="table__th-sort d-none d-sm-table-cell"><span
                                         class="align-middle">Status</span><span class="sort sort--down"></span>
                                 </th>
+                                <th class="table__th-sort d-none d-sm-table-cell"><span class="align-middle">Product
+                                        Type</span></th>
                                 <th class="table__actions"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product"><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#790841</span>
-                                </td>
-                                <td class="table__td">MacBook Pro 15” (Mid 2018)</td>
-                                <td class="table__td"><span class="text-grey">Notebook</span>
-                                </td>
-                                <td class="table__td"><span>$2500</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">12.07.2018</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-red"></span>
-                                        Deleted</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
+                            <% if (products && products.length> 0) { %>
+                                <% products.forEach(function(product,index) { %>
+                                    <tr class="table__row">
+                                        <td class="d-none d-lg-table-cell table__td"><span class="text-grey">
+                                                <%= index + 1 %>
+                                            </span></td>
+                                        <td class="table__td">
+                                            <%= product.name %>
+                                        </td>
+                                        <td class="table__td"><span class="text-grey">
+                                                <%= product.main_category_name || '—' %>
+                                            </span></td>
+                                        <td class="table__td">
+
+                                            <span class="price-display"
+                                                data-prices='<%- JSON.stringify(product.priceObj || {}) %>'>
+                                                —
+                                            </span>
+
+                                        </td>
+                                        <td class="d-none d-lg-table-cell table__td"><span class="text-grey">
+                                                <%= new Date(product.created_at).toLocaleDateString('en-IN') %>
+                                            </span></td>
+                                        <td class="d-none d-sm-table-cell table__td">
+                                            <div class="table__status">
+                                                <span
+                                                    class="table__status-icon <%= product.status == 1 ? 'color-green' : 'color-red' %>"></span>
+                                                <%= product.status==1 ? 'Published' : 'Unpublished' %>
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product"><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#733829</span>
-                                </td>
-                                <td class="table__td">iPad Air</td>
-                                <td class="table__td"><span class="text-grey">Tablet</span>
-                                </td>
-                                <td class="table__td"><span>$960</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">12.07.2020</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-green"></span>
-                                        Published</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
+                                        </td>
+                                        <td class="d-none d-sm-table-cell table__td">
+                                            <%= product.product_type=='product_list' ? 'Product List' :
+                                                product.product_type=='enquiry' ? 'Enquiry' : '—' %>
+                                        </td>
+                                        <td class="table__td table__actions">
+                                            <div class="items-more">
+                                                <button class="items-more__button">
+                                                    <svg class="icon-icon-more">
+                                                        <use xlink:href="#icon-more"></use>
+                                                    </svg>
+                                                </button>
+                                                <div class="dropdown-items dropdown-items--right">
+                                                    <div class="dropdown-items__container">
+                                                        <ul class="dropdown-items__list">
+                                                            <li class="dropdown-items__item"><a
+                                                                    class="dropdown-items__link"
+                                                                    href="/panel/product/<%= product.product_token %>"><span
+                                                                        class="dropdown-items__link-icon"><svg
+                                                                            class="icon-icon-view">
+                                                                            <use xlink:href="#icon-view"></use>
+                                                                        </svg></span>Details</a>
+                                                            </li>
+                                                            <li class="dropdown-items__item">
+                                                                <form method="POST"
+                                                                    action="/panel/toggle-product-status"
+                                                                    style="display:inline;">
+                                                                    <input type="hidden" name="product_token"
+                                                                        value="<%= product.product_token %>">
+                                                                    <input type="hidden" name="status"
+                                                                        value="<%= product.status %>">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background:none;border:none;cursor:pointer;width:100%;text-align:left;"
+                                                                        onclick="confirmToggleStatus(this, '<%= product.status == 1 ? `Unpublish` : `Publish` %>')">
+                                                                        <span class="dropdown-items__link-icon">
+                                                                            <i class="fa-solid fa-ban"></i>
+                                                                        </span>
+                                                                        <%= product.status==1 ? 'Unpublish' : 'Publish'
+                                                                            %>
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                            <li class="dropdown-items__item"><a
+                                                                    class="dropdown-items__link"
+                                                                    href="/panel/edit-product/<%= product.product_token %>"><span
+                                                                        class="dropdown-items__link-icon"><svg
+                                                                            class="icon-icon-duplicate">
+                                                                            <use xlink:href="#icon-duplicate"></use>
+                                                                        </svg></span>Edit</a></li>
+                                                            <li class="dropdown-items__item">
+                                                                <form method="POST" action="/panel/delete-product"
+                                                                    style="display:inline;">
+                                                                    <input type="hidden" name="product_token"
+                                                                        value="<%= product.product_token %>">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background:none;border:none;cursor:pointer;width:100%;text-align:left;"
+                                                                        onclick="confirmDelete(this)">
+                                                                        <span class="dropdown-items__link-icon">
+                                                                            <svg class="icon-icon-trash">
+                                                                                <use xlink:href="#icon-trash"></use>
+                                                                            </svg>
+                                                                        </span>Delete
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product" checked><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#350245</span>
-                                </td>
-                                <td class="table__td">MacBook Pro 16” (Mid 2020)</td>
-                                <td class="table__td"><span class="text-grey">Notebook</span>
-                                </td>
-                                <td class="table__td"><span>$4500</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">12.12.2020</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-green"></span>
-                                        Published</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product" checked><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#290261</span>
-                                </td>
-                                <td class="table__td">Apple Watch</td>
-                                <td class="table__td"><span class="text-grey">Smart</span>
-                                </td>
-                                <td class="table__td"><span>$900</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">08.05.2020</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-green"></span>
-                                        Published</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product" checked><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#595841</span>
-                                </td>
-                                <td class="table__td">iPhone 12</td>
-                                <td class="table__td"><span class="text-grey">Smart Phone</span>
-                                </td>
-                                <td class="table__td"><span>$1800</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">08.08.2020</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-green"></span>
-                                        Published</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product" checked><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#387339</span>
-                                </td>
-                                <td class="table__td">IPad Pro 12</td>
-                                <td class="table__td"><span class="text-grey">Tablet</span>
-                                </td>
-                                <td class="table__td"><span>$1200</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">05.09.2020</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-green"></span>
-                                        Published</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product" checked><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#449276</span>
-                                </td>
-                                <td class="table__td">iMac Pro</td>
-                                <td class="table__td"><span class="text-grey">Computer</span>
-                                </td>
-                                <td class="table__td"><span>$2800</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">25.12.2020</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-green"></span>
-                                        Published</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right dropdown-items--up">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product"><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#259476</span>
-                                </td>
-                                <td class="table__td">iPhone XR</td>
-                                <td class="table__td"><span class="text-grey">Smart Phone</span>
-                                </td>
-                                <td class="table__td"><span>$890</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">18.06.2019</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-red"></span>
-                                        Deleted</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right dropdown-items--up">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product"><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#235538</span>
-                                </td>
-                                <td class="table__td">IPad Pro 10.5</td>
-                                <td class="table__td"><span class="text-grey">Tablet</span>
-                                </td>
-                                <td class="table__td"><span>$1200</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">02.07.2019</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-red"></span>
-                                        Deleted</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right dropdown-items--up">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="table__row">
-                                <td class="table__td">
-                                    <div class="table__checkbox table__checkbox--all">
-                                        <label class="checkbox">
-                                            <input type="checkbox" data-checkbox="product"><span
-                                                class="checkbox__marker"><span class="checkbox__marker-icon"><svg
-                                                        viewBox="0 0 14 12">
-                                                        <path
-                                                            d="M11.7917 1.2358C12.0798 1.53914 12.0675 2.01865 11.7642 2.30682L5.7036 8.06439C5.40574 8.34735 4.93663 8.34134 4.64613 8.05084L2.22189 5.6266C1.92604 5.33074 1.92604 4.85107 2.22189 4.55522C2.51774 4.25937 2.99741 4.25937 3.29326 4.55522L5.19538 6.45734L10.7206 1.20834C11.024 0.920164 11.5035 0.93246 11.7917 1.2358Z" />
-                                                    </svg></span></span>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">#833902</span>
-                                </td>
-                                <td class="table__td">iPhone X</td>
-                                <td class="table__td"><span class="text-grey">Smart Phone</span>
-                                </td>
-                                <td class="table__td"><span>$850</span>
-                                </td>
-                                <td class="d-none d-lg-table-cell table__td"><span class="text-grey">28.10.2019</span>
-                                </td>
-                                <td class="d-none d-sm-table-cell table__td">
-                                    <div class="table__status"><span class="table__status-icon color-red"></span>
-                                        Deleted</div>
-                                </td>
-                                <td class="table__td table__actions">
-                                    <div class="items-more">
-                                        <button class="items-more__button">
-                                            <svg class="icon-icon-more">
-                                                <use xlink:href="#icon-more"></use>
-                                            </svg>
-                                        </button>
-                                        <div class="dropdown-items dropdown-items--right dropdown-items--up">
-                                            <div class="dropdown-items__container">
-                                                <ul class="dropdown-items__list">
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-view">
-                                                                    <use xlink:href="#icon-view"></use>
-                                                                </svg></span>Details</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-duplicate">
-                                                                    <use xlink:href="#icon-duplicate"></use>
-                                                                </svg></span>Duplicate</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-archive">
-                                                                    <use xlink:href="#icon-archive"></use>
-                                                                </svg></span>Archive</a>
-                                                    </li>
-                                                    <li class="dropdown-items__item"><a
-                                                            class="dropdown-items__link"><span
-                                                                class="dropdown-items__link-icon">
-                                                                <svg class="icon-icon-trash">
-                                                                    <use xlink:href="#icon-trash"></use>
-                                                                </svg></span>Delete</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="8" style="text-align:center; padding:30px; color:#999;">No
+                                                    products found.</td>
+                                            </tr>
+                                            <% } %>
                         </tbody>
                     </table>
-                </div>
-                <div class="table-wrapper__footer">
-                    <div class="row">
-                        <div class="table-wrapper__show-result col text-grey"><span
-                                class="d-none d-sm-inline-block">Showing</span> 1 to 10 <span
-                                class="d-none d-sm-inline-block">of 50 items</span>
+                    <% if (totalPages> 1) { %>
+                        <div class="table-wrapper__footer">
+                            <div class="row align-items-center">
+                                <div class="col text-grey">
+                                    Showing page <%= currentPage %> of <%= totalPages %> &nbsp;(Total: <%= totalItems %>
+                                                products)
+                                </div>
+                                <div class="col-auto">
+                                    <ul class="pagination">
+
+                                        <!-- Previous -->
+                                        <li class="pagination__item <%= currentPage == 1 ? 'disabled' : '' %>">
+                                            <a class="pagination__link"
+                                                href="?page=<%= currentPage - 1 %>&search=<%= search %>">
+                                                <svg class="icon-icon-keyboard-left">
+                                                    <use xlink:href="#icon-keyboard-left"></use>
+                                                </svg>
+                                            </a>
+                                        </li>
+
+                                        <!-- Page Numbers -->
+                                        <% for(let i=1; i <=totalPages; i++) { %>
+                                            <li class="pagination__item <%= currentPage == i ? 'active' : '' %>">
+                                                <a class="pagination__link" href="?page=<%= i %>&search=<%= search %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+
+                                                <!-- Next -->
+                                                <li
+                                                    class="pagination__item <%= currentPage == totalPages ? 'disabled' : '' %>">
+                                                    <a class="pagination__link"
+                                                        href="?page=<%= currentPage + 1 %>&search=<%= search %>">
+                                                        <svg class="icon-icon-keyboard-right">
+                                                            <use xlink:href="#icon-keyboard-right"></use>
+                                                        </svg>
+                                                    </a>
+                                                </li>
+
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <div class="table-wrapper__pagination col-auto">
-                            <ol class="pagination">
-                                <li class="pagination__item">
-                                    <a class="pagination__arrow pagination__arrow--prev" href="#">
-                                        <svg class="icon-icon-keyboard-left">
-                                            <use xlink:href="#icon-keyboard-left"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="pagination__item active"><a class="pagination__link" href="#">1</a>
-                                </li>
-                                <li class="pagination__item"><a class="pagination__link" href="#">2</a>
-                                </li>
-                                <li class="pagination__item"><a class="pagination__link" href="#">3</a>
-                                </li>
-                                <li class="pagination__item pagination__item--dots">...</li>
-                                <li class="pagination__item"><a class="pagination__link" href="#">10</a>
-                                </li>
-                                <li class="pagination__item">
-                                    <a class="pagination__arrow pagination__arrow--next" href="#">
-                                        <svg class="icon-icon-keyboard-right">
-                                            <use xlink:href="#icon-keyboard-right"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
+                        <% } %>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        const priceSymbols = { INR: '₹', USD: '$', AED: 'د.إ', EUR: '€', GBP: '£' };
+
+        function updatePrices() {
+            const currency = localStorage.getItem('currency') || 'INR';
+
+            document.querySelectorAll('.price-display').forEach(function (el) {
+                try {
+                    const prices = JSON.parse(el.dataset.prices || '{}');
+
+                    if (prices[currency]) {
+                        const sym = priceSymbols[currency];
+                        const sellingVal = prices[currency].selling_price || prices[currency].selling || 0;
+                        el.textContent = sym + parseFloat(sellingVal).toFixed(2);
+                    } else {
+                        el.textContent = '—';
+                    }
+                } catch (err) {
+                    el.textContent = '—';
+                }
+            });
+        }
+        updatePrices();
+        window.addEventListener('currencyChange', updatePrices);
+
+        function confirmToggleStatus(btn, action) {
+            const form = btn.closest('form');
+            const isUnpublish = action === 'Unpublish';
+            AppModal.confirm({
+                type: isUnpublish ? 'warning' : 'info',
+                title: isUnpublish ? 'Unpublish Product?' : 'Publish Product?',
+                message: isUnpublish
+                    ? 'This product will be hidden from the store. You can re-publish it anytime.'
+                    : 'This product will be visible to all customers on the store.',
+                confirmText: isUnpublish ? 'Yes, Unpublish' : 'Yes, Publish',
+                onConfirm: function () {
+                    form.submit();
+                }
+            });
+        }
+
+        function confirmDelete(btn) {
+            const form = btn.closest('form');
+            AppModal.confirm({
+                type: 'danger',
+                title: 'Delete Product?',
+                message: 'This action is permanent and cannot be undone. The product and all its data will be removed.',
+                confirmText: 'Yes, Delete',
+                onConfirm: function () {
+                    form.submit();
+                }
+            });
+        }
+
+    </script>
     <%- include('../../layout/footer.ejs') %>

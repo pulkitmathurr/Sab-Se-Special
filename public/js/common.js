@@ -2821,3 +2821,118 @@ var calendarMonth = [
       });
     }
   }));
+/* ===================== MODAL ===================== */
+const AppModal = (function () {
+  const icons = { success: "✅", warning: "⚠️", danger: "🗑️", info: "💡" };
+
+  function _render({ type = "info", title, message, actions }) {
+    const overlay = document.getElementById("modalOverlay");
+    const card = document.getElementById("modalCard");
+    card.className = "modal-card modal--" + type;
+    document.getElementById("modalIcon").textContent = icons[type] || "ℹ️";
+    document.getElementById("modalTitle").textContent = title || "";
+    document.getElementById("modalMessage").textContent = message || "";
+    const actionsEl = document.getElementById("modalActions");
+    actionsEl.innerHTML = "";
+    actions.forEach(function (action) {
+      const btn = document.createElement("button");
+      btn.className = "modal-btn " + (action.className || "");
+      btn.textContent = action.label;
+      btn.onclick = function () {
+        AppModal.close();
+        if (typeof action.onClick === "function") action.onClick();
+      };
+      actionsEl.appendChild(btn);
+    });
+    overlay.classList.add("active");
+  }
+
+  function alert({
+    type = "info",
+    title,
+    message,
+    confirmText = "OK",
+    onClose,
+  }) {
+    _render({
+      type,
+      title,
+      message,
+      actions: [
+        {
+          label: confirmText,
+          className: "modal-btn--" + type,
+          onClick: onClose,
+        },
+      ],
+    });
+  }
+
+  function confirm({
+    type = "danger",
+    title,
+    message,
+    confirmText = "Confirm",
+    cancelText = "Cancel",
+    onConfirm,
+    onCancel,
+  }) {
+    _render({
+      type,
+      title,
+      message,
+      actions: [
+        {
+          label: cancelText,
+          className: "modal-btn--cancel",
+          onClick: onCancel,
+        },
+        {
+          label: confirmText,
+          className: "modal-btn--" + type,
+          onClick: onConfirm,
+        },
+      ],
+    });
+  }
+
+  function close() {
+    const el = document.getElementById("modalOverlay");
+    if (el) el.classList.remove("active");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document
+      .getElementById("modalOverlay")
+      .addEventListener("click", function (e) {
+        if (e.target === this) close();
+      });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") close();
+    });
+  });
+
+  return { alert, confirm, close };
+})();
+
+/* ===================== TOAST ===================== */
+const AppToast = (function () {
+  const icons = { success: "✅", warning: "⚠️", danger: "❌", info: "ℹ️" };
+
+  function show(message, type = "info", duration = 3000) {
+    const container = document.getElementById("toastContainer");
+    if (!container) return;
+    const toast = document.createElement("div");
+    toast.className = "toast toast--" + type;
+    toast.innerHTML = `<span>${icons[type] || "ℹ️"}</span><span class="toast__text">${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(function () {
+      toast.classList.add("removing");
+      setTimeout(function () {
+        toast.remove();
+      }, 200);
+    }, duration);
+  }
+
+  return { show };
+})();

@@ -253,8 +253,7 @@
 
             <!-- Table -->
             <div class="table-wrapper">
-                <div class="table-wrapper__content table-products table-collapse scrollbar-thin scrollbar-visible"
-                    data-simplebar>
+                <div class="table-wrapper__content table-products table-collapse">
                     <table class="table table--lines">
                         <colgroup>
                             <col class="colgroup-1">
@@ -340,7 +339,7 @@
                                                 <button class="items-more__button">
                                                     <i class="fa-solid fa-ellipsis"></i>
                                                 </button>
-                                                <div class="dropdown-items dropdown-items--left dropdown-items--down">
+                                                <div class="dropdown-items dropdown-items--right">
                                                     <div class="dropdown-items__container">
                                                         <ul class="dropdown-items__list">
 
@@ -365,6 +364,25 @@
                                                                 </a>
                                                             </li>
 
+                                                            <!-- Delete -->
+                                                            <li class="dropdown-items__item">
+                                                                <form action="/panel/delete-grand-child-category"
+                                                                    method="POST" style="margin:0;">
+                                                                    <input type="hidden"
+                                                                        name="grand_child_category_token"
+                                                                        value="<%= item.grand_child_category_token %>">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background:none;border:none;padding:0;width:100%;text-align:left;"
+                                                                        onclick="confirmDelete(this)">
+                                                                        <span class="dropdown-items__link-icon">
+                                                                            <svg class="icon-icon-trash">
+                                                                                <use xlink:href="#icon-trash"></use>
+                                                                            </svg>
+                                                                        </span>
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
+                                                            </li>
                                                             <!-- Publish/Unpublish -->
                                                             <li class="dropdown-items__item">
                                                                 <form action="/panel/unpublish-grand-child-category"
@@ -372,33 +390,13 @@
                                                                     <input type="hidden"
                                                                         name="grand_child_category_token"
                                                                         value="<%= item.grand_child_category_token %>">
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background:none;border:none;padding:0;width:100%;text-align:left;">
+                                                                    <button type="button" class="dropdown-items__link"
+                                                                        style="background:none;border:none;padding:0;width:100%;text-align:left;"
+                                                                        onclick="confirmToggle(this, '<%= item.status == 1 ? `Unpublish` : `Publish` %>')">
                                                                         <span class="dropdown-items__link-icon">
                                                                             <i class="fa-solid fa-ban"></i>
                                                                         </span>
                                                                         <%= item.status==1 ? 'Unpublish' : 'Publish' %>
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-
-                                                            <!-- Delete -->
-                                                            <li class="dropdown-items__item">
-                                                                <form action="/panel/delete-grand-child-category"
-                                                                    method="POST"
-                                                                    onsubmit="return confirm('Are you sure?')"
-                                                                    style="margin:0;">
-                                                                    <input type="hidden"
-                                                                        name="grand_child_category_token"
-                                                                        value="<%= item.grand_child_category_token %>">
-                                                                    <button type="submit" class="dropdown-items__link"
-                                                                        style="background:none;border:none;padding:0;width:100%;text-align:left;">
-                                                                        <span class="dropdown-items__link-icon">
-                                                                            <svg class="icon-icon-trash">
-                                                                                <use xlink:href="#icon-trash"></use>
-                                                                            </svg>
-                                                                        </span>
-                                                                        Delete
                                                                     </button>
                                                                 </form>
                                                             </li>
@@ -638,6 +636,29 @@
             filterChildOptions('edit_child_token', el.dataset.subToken);
 
             document.getElementById('edit_child_token').value = el.dataset.childToken;
+        }
+
+        function confirmDelete(btn) {
+            const form = btn.closest('form');
+            AppModal.confirm({
+                type: 'danger',
+                title: 'Delete Child Category?',
+                message: 'This cannot be undone.',
+                confirmText: 'Yes, Delete',
+                onConfirm: function () { form.submit(); }
+            });
+        }
+
+        function confirmToggle(btn, action) {
+            const form = btn.closest('form');
+            const isUnpublish = action === 'Unpublish';
+            AppModal.confirm({
+                type: isUnpublish ? 'warning' : 'info',
+                title: isUnpublish ? 'Unpublish?' : 'Publish?',
+                message: isUnpublish ? 'This will be hidden from store.' : 'This will be visible on store.',
+                confirmText: isUnpublish ? 'Yes, Unpublish' : 'Yes, Publish',
+                onConfirm: function () { form.submit(); }
+            });
         }
     </script>
 

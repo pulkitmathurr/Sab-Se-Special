@@ -17,6 +17,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <link rel="stylesheet" href="/css/vendor.min.css">
   <link rel="stylesheet" href="/css/common.css">
+
   <link rel="apple-touch-icon" sizes="57x57" href="/img/content/favicons/apple-icon-57x57.png" />
   <link rel="apple-touch-icon" sizes="60x60" href="/img/content/favicons/apple-icon-60x60.png" />
   <link rel="apple-touch-icon" sizes="72x72" href="/img/content/favicons/apple-icon-72x72.png" />
@@ -37,8 +38,6 @@
   <meta name="msapplication-TileImage" content="../../ms-icon-144x144.html" />
   <meta name="theme-color" content="#ffffff" />
 </head>
-
-
 
 <body class="page-home">
 
@@ -487,6 +486,24 @@
             <div class="header__col-right col d-flex align-items-center">
 
               <div class="header__tools">
+
+                <!-- Currency Toggle -->
+                <div class="header__tools-item" style="margin-right: 8px;">
+                  <button id="currencyToggleBtn" data-tippy-content="Switch Currency" data-tippy-placement="bottom"
+                    data-toggle="dropdown"
+                    style="background: none; border: 1px solid #ccc; border-radius: 20px; padding: 4px 12px; cursor: pointer; font-size: 13px; font-weight: 600; color: inherit; display: flex; align-items: center; gap: 5px;">
+                    <span id="currencyLabel">₹ INR</span>
+                    <i class="fa-solid fa-angle-down" style="font-size:11px;"></i>
+                  </button>
+                  <div class="dropdown-menu" style="min-width: 130px;">
+                    <a class="dropdown-menu__item" href="#" onclick="setCurrency('INR')">₹ INR</a>
+                    <a class="dropdown-menu__item" href="#" onclick="setCurrency('USD')">$ USD</a>
+                    <a class="dropdown-menu__item" href="#" onclick="setCurrency('AED')">د.إ AED</a>
+                    <a class="dropdown-menu__item" href="#" onclick="setCurrency('EUR')">€ EUR</a>
+                    <a class="dropdown-menu__item" href="#" onclick="setCurrency('GBP')">£ GBP</a>
+                  </div>
+                </div>
+
                 <div class="header__notes header__tools-item">
                   <a class="header__tools-toggle header__tools-toggle--message" href="#"
                     data-tippy-content="Notifications" data-tippy-placement="bottom" data-toggle="dropdown">
@@ -906,7 +923,7 @@
         </div>
       </div>
     </header>
-    
+
     <!-- Flash Messages -->
     <% if (locals.success_msg) { %>
       <div style="

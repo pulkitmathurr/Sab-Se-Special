@@ -1,17 +1,91 @@
+<div id="modalOverlay">
+    <div class="modal-card" id="modalCard">
+        <div class="modal-card__stripe"></div>
+        <button class="modal-card__close" onclick="AppModal.close()">✕</button>
+        <div class="modal-card__body">
+            <div class="modal-card__icon-wrap" id="modalIcon"></div>
+            <div class="modal-card__title" id="modalTitle"></div>
+            <div class="modal-card__message" id="modalMessage"></div>
+            <div class="modal-card__actions" id="modalActions"></div>
+        </div>
+    </div>
+</div>
+<div id="toastContainer"></div>
 
 <script>
     setTimeout(() => {
         document.querySelectorAll('[style*="position: fixed"]').forEach(el => {
             el.style.display = 'none';
         });
-    }, 3000);   
+    }, 3000);
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.items-more__button').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const dropdown = this.nextElementSibling;
+                const rect = dropdown.getBoundingClientRect();
+                const spaceBelow = window.innerHeight - rect.top;
+
+                if (spaceBelow < 180) {
+                    dropdown.classList.add('dropdown-items--up');
+                } else {
+                    dropdown.classList.remove('dropdown-items--up');
+                }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.items-more__button').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var dropdown = btn.nextElementSibling;
+                setTimeout(function () {
+                    var rect = dropdown.getBoundingClientRect();
+                    var dropdownHeight = dropdown.offsetHeight || 160;
+                    var spaceBelow = window.innerHeight - rect.bottom;
+                    var spaceAbove = rect.top;
+
+                    if (spaceBelow < 20 && spaceAbove > dropdownHeight) {
+                        dropdown.classList.add('dropdown-items--up');
+                    } else {
+                        dropdown.classList.remove('dropdown-items--up');
+                    }
+                }, 10);
+            });
+        });
+    });
+
+    // <!-- Currency Toggle Script -->
+    const currencySymbols = {
+        INR: '₹ INR',
+        USD: '$ USD',
+        AED: 'د.إ AED',
+        EUR: '€ EUR',
+        GBP: '£ GBP'
+    };
+
+    (function () {
+        const saved = localStorage.getItem('currency') || 'INR';
+        document.getElementById('currencyLabel').textContent = currencySymbols[saved];
+    })();
+
+    function setCurrency(currency) {
+        localStorage.setItem('currency', currency);
+        document.getElementById('currencyLabel').textContent = currencySymbols[currency];
+        window.dispatchEvent(new CustomEvent('currencyChange', { detail: currency }));
+    }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/photoswipe/photoswipe-lightbox.esm.min.js" type="module"></script>
-    <script src="/js/photoswipe/photoswipe.esm.min.js" type="module"></script>
-    <script src="/js/gsap/gsap.min.js"></script>
-    <script src="/js/gsap/ScrollToPlugin.min.js"></script>
-    <script src="/js/gsap/ScrollTrigger.min.js"></script>
-    <script src="/js/vendor.min.js"></script>
-    <script src="/js/common.js"></script>
+<script src="/js/photoswipe/photoswipe.esm.min.js" type="module"></script>
+<script src="/js/gsap/gsap.min.js"></script>
+<script src="/js/gsap/ScrollToPlugin.min.js"></script>
+<script src="/js/gsap/ScrollTrigger.min.js"></script>
+<script src="/js/vendor.min.js"></script>
+<script src="/js/common.js"></script>
+
 </body>
+
 </html>
